@@ -43,7 +43,23 @@ main{padding-bottom:30px}.hero{margin-top:25px;min-height:258px;border-radius:22
 </main>
 <nav class="mobile-nav"><button class="active" onclick="scrollTo({top:0,behavior:'smooth'})"><svg><use href="#i-home"/></svg>Главная</button><button onclick="document.getElementById('games').scrollIntoView({behavior:'smooth'})"><svg><use href="#i-search"/></svg>Каталог</button><button onclick="alert('Создание объявления подключим к API.')"><svg><use href="#i-package"/></svg>Продать</button><button onclick="alert('Избранное появится после авторизации.')"><svg><use href="#i-heart"/></svg>Избранное</button><button onclick="alert('Профиль будет подключён через Telegram.')"><svg><use href="#i-user"/></svg>Профиль</button></nav>
 <script>
-const tg=window.Telegram?.WebApp;if(tg){tg.ready();tg.expand();}
+const tg = window.Telegram?.WebApp;
+
+if (tg) {
+    tg.ready();
+    tg.expand();
+
+    const user = tg.initDataUnsafe?.user;
+
+    if (user) {
+        console.log("Пользователь NexPay:", {
+            id: user.id,
+            username: user.username,
+            first_name: user.first_name,
+            photo_url: user.photo_url
+        });
+    }
+}
 const search=document.getElementById('searchInput');search.addEventListener('input',()=>{const q=search.value.trim().toLowerCase();document.querySelectorAll('.game').forEach(card=>{card.style.display=card.dataset.search.includes(q)?'':'none';});});
 </script>
 </body></html>
