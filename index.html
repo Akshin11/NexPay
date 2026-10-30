@@ -2,259 +2,521 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#0b1020">
-    <title>NexPay — Маркетплейс</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b1112">
+<title>NexPay — Игровой маркетплейс</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+<style>
+:root {
+    --bg: #0b1112;
+    --panel: #121d1d;
+    --card: #172423;
+    --border: #263b36;
+    --accent: #20c9a5;
+    --text: #f4faf7;
+    --muted: #8fa49b;
+}
 
-        body {
-            background: #0b1020;
-            color: #fff;
-            font-family: Arial, sans-serif;
-            padding-bottom: 85px;
-        }
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
-        .container {
-            max-width: 600px;
-            margin: auto;
-            padding: 20px 16px;
-        }
+body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: Inter, Arial, sans-serif;
+    min-height: 100vh;
+}
 
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-        }
+button, input { font: inherit; }
+button { cursor: pointer; }
 
-        .logo {
-            font-size: 27px;
-            font-weight: 800;
-        }
+button:focus-visible, input:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+}
 
-        .logo span {
-            color: #4388ff;
-        }
+.shell {
+    width: min(1440px, 100%);
+    margin: auto;
+    padding: 0 28px;
+}
 
-        .avatar {
-            background: #1b2942;
-            border-radius: 50%;
-            width: 42px;
-            height: 42px;
-            display: grid;
-            place-items: center;
-        }
+/* HEADER */
 
-        h1 {
-            font-size: 25px;
-            margin-bottom: 8px;
-        }
+.header {
+    min-height: 76px;
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    border-bottom: 1px solid var(--border);
+}
 
-        .muted {
-            color: #8998b3;
-            font-size: 14px;
-        }
+.logo {
+    font-size: 28px;
+    font-weight: 900;
+    letter-spacing: -1px;
+    white-space: nowrap;
+}
 
-        .search {
-            width: 100%;
-            margin: 22px 0;
-            padding: 16px;
-            border: 1px solid #243451;
-            border-radius: 13px;
-            background: #141e32;
-            color: white;
-            font-size: 15px;
-            outline: none;
-        }
+.logo span { color: var(--accent); }
 
-        .section-title {
-            font-size: 19px;
-            margin: 25px 0 15px;
-        }
+.search {
+    flex: 1;
+    min-width: 100px;
+    background: var(--panel);
+    color: white;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 17px;
+}
 
-        .categories {
-            display: flex;
-            gap: 9px;
-            overflow-x: auto;
-            padding-bottom: 5px;
-        }
+.search::placeholder { color: var(--muted); }
 
-        .category {
-            white-space: nowrap;
-            padding: 11px 16px;
-            border-radius: 20px;
-            background: #17243b;
-            color: #c4d1e8;
-            font-size: 13px;
-            border: 1px solid #263957;
-        }
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
 
-        .category.active {
-            background: #347cf6;
-            color: white;
-            border-color: #347cf6;
-        }
+.header-actions button {
+    background: transparent;
+    border: 0;
+    color: var(--text);
+}
 
-        .products {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 12px;
-        }
+.sell-button {
+    background: var(--accent) !important;
+    color: #071a15 !important;
+    border-radius: 10px;
+    padding: 13px 20px;
+    font-weight: 800;
+}
 
-        .product {
-            background: #141e32;
-            border: 1px solid #243451;
-            border-radius: 15px;
-            overflow: hidden;
-        }
+/* NAVIGATION */
 
-        .product-image {
-            height: 115px;
-            background: #1d2c47;
-            display: grid;
-            place-items: center;
-            font-size: 38px;
-        }
+.nav {
+    display: flex;
+    align-items: center;
+    gap: 27px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding: 17px 0;
+    border-bottom: 1px solid var(--border);
+}
 
-        .product-info {
-            padding: 12px;
-        }
+.nav::-webkit-scrollbar { display: none; }
 
-        .product-name {
-            font-size: 14px;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
+.nav button {
+    white-space: nowrap;
+    color: #a8bab2;
+    background: none;
+    border: 0;
+    font-size: 14px;
+}
 
-        .product-description {
-            color: #8998b3;
-            font-size: 12px;
-            margin-bottom: 12px;
-        }
+.nav button.active {
+    color: var(--accent);
+}
 
-        .price {
-            font-size: 17px;
-            font-weight: 800;
-            color: #6da2ff;
-        }
+/* HERO */
 
-        .empty {
-            grid-column: 1 / -1;
-            padding: 25px 15px;
-            text-align: center;
-            color: #8998b3;
-            background: #141e32;
-            border-radius: 14px;
-            font-size: 14px;
-        }
+main { padding-bottom: 45px; }
 
-        nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: #111a2b;
-            border-top: 1px solid #26334b;
-            display: flex;
-            justify-content: space-around;
-            padding: 13px 5px;
-            padding-bottom: max(13px, env(safe-area-inset-bottom));
-        }
+.hero {
+    margin-top: 25px;
+    min-height: 235px;
+    padding: 35px;
+    border: 1px solid #205c4e;
+    border-radius: 19px;
+    background:
+        radial-gradient(ellipse at 85% 50%, #176b55 0%, transparent 42%),
+        linear-gradient(110deg, #12372f, #102421 65%, #122b26);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    overflow: hidden;
+}
 
-        nav button {
-            border: none;
-            background: none;
-            color: #8291aa;
-            font-size: 11px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 5px;
-        }
+.hero-content { max-width: 620px; }
 
-        nav button span {
-            font-size: 20px;
-        }
+.hero-label {
+    color: #70e5c6;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    margin-bottom: 15px;
+}
 
-        nav button.active {
-            color: #5b98ff;
-        }
-    </style>
+.hero h1 {
+    font-size: clamp(29px, 4vw, 46px);
+    line-height: 1.1;
+    margin-bottom: 13px;
+}
+
+.hero p {
+    color: #b7d0c6;
+    line-height: 1.6;
+    font-size: 15px;
+}
+
+.hero-art {
+    font-size: clamp(65px, 10vw, 125px);
+    filter: drop-shadow(0 10px 25px #0008);
+    padding: 0 25px;
+}
+
+.hero-button {
+    display: inline-block;
+    margin-top: 21px;
+    border: 0;
+    border-radius: 10px;
+    padding: 13px 19px;
+    color: #061a14;
+    background: var(--accent);
+    font-weight: 800;
+}
+
+/* SECTIONS */
+
+.section { margin-top: 32px; }
+
+.section-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 17px;
+}
+
+.section-heading h2 {
+    font-size: 21px;
+}
+
+.section-heading button {
+    color: var(--accent);
+    background: none;
+    border: 0;
+    white-space: nowrap;
+}
+
+/* GAMES */
+
+.games {
+    display: grid;
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.game {
+    min-width: 0;
+    text-align: center;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    padding: 16px 6px;
+    color: var(--text);
+    transition: .2s;
+}
+
+.game:hover {
+    border-color: var(--accent);
+    transform: translateY(-3px);
+}
+
+.game-icon {
+    display: block;
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+.game-name {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+}
+
+/* CATEGORIES */
+
+.categories {
+    display: grid;
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.category {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    padding: 17px 7px;
+    text-align: center;
+    color: var(--text);
+}
+
+.category-icon {
+    display: block;
+    font-size: 27px;
+    margin-bottom: 10px;
+}
+
+.category-name { font-size: 12px; }
+
+/* PRODUCTS */
+
+.filters {
+    display: flex;
+    gap: 9px;
+    overflow-x: auto;
+    padding-bottom: 5px;
+    margin-bottom: 16px;
+}
+
+.filter {
+    white-space: nowrap;
+    border: 1px solid var(--border);
+    background: var(--panel);
+    color: #b9c9c1;
+    padding: 10px 14px;
+    border-radius: 9px;
+    font-size: 13px;
+}
+
+.filter.active {
+    color: #061a14;
+    background: var(--accent);
+    border-color: var(--accent);
+}
+
+.empty {
+    border: 1px dashed #36534a;
+    background: var(--panel);
+    border-radius: 15px;
+    padding: 48px 20px;
+    text-align: center;
+    grid-column: 1 / -1;
+}
+
+.empty-icon { font-size: 38px; margin-bottom: 13px; }
+
+.empty p {
+    color: var(--muted);
+    font-size: 14px;
+    margin-top: 9px;
+    line-height: 1.5;
+}
+
+/* FOOTER */
+
+.footer {
+    border-top: 1px solid var(--border);
+    padding: 25px 0;
+    color: var(--muted);
+    font-size: 13px;
+    text-align: center;
+}
+
+/* TABLET */
+
+@media (max-width: 1000px) {
+    .shell { padding: 0 20px; }
+    .games { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .categories { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .nav { gap: 20px; }
+}
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+    .shell { padding: 0 14px; }
+
+    .header {
+        min-height: auto;
+        padding: 15px 0;
+        flex-wrap: wrap;
+        gap: 13px;
+    }
+
+    .logo { font-size: 24px; flex: 1; }
+
+    .search {
+        order: 3;
+        flex-basis: 100%;
+        padding: 13px;
+    }
+
+    .header-actions { gap: 13px; }
+
+    .header-actions button:not(.sell-button) {
+        font-size: 12px;
+    }
+
+    .sell-button {
+        padding: 11px 13px;
+        font-size: 12px;
+    }
+
+    .nav { gap: 20px; padding: 14px 0; }
+
+    .nav button { font-size: 13px; }
+
+    .hero {
+        margin-top: 17px;
+        min-height: 195px;
+        padding: 22px 18px;
+        border-radius: 15px;
+    }
+
+    .hero-art {
+        font-size: 60px;
+        padding: 0;
+    }
+
+    .hero h1 { font-size: 27px; }
+    .hero p { font-size: 13px; }
+
+    .hero-label { font-size: 10px; }
+
+    .section { margin-top: 26px; }
+    .section-heading h2 { font-size: 18px; }
+
+    .games { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+    .game { padding: 13px 4px; }
+    .game-icon { font-size: 25px; }
+    .game-name { font-size: 11px; }
+
+    .categories { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+    .category { padding: 13px 4px; }
+    .category-icon { font-size: 23px; }
+    .category-name { font-size: 10px; }
+
+    .footer { padding-bottom: 30px; }
+}
+
+/* SMALL PHONES */
+
+@media (max-width: 360px) {
+    .shell { padding: 0 10px; }
+    .hero { padding: 18px 13px; }
+    .hero h1 { font-size: 23px; }
+    .hero-art { font-size: 48px; }
+    .games { gap: 6px; }
+    .game-name { font-size: 10px; }
+}
+</style>
 </head>
 
 <body>
-    <main class="container">
-        <header>
-            <div class="logo">Nex<span>Pay</span></div>
-            <div class="avatar">👤</div>
-        </header>
+<div class="shell">
 
-        <h1>Каталог товаров</h1>
-        <p class="muted">Находи интересные предложения</p>
+<header class="header">
+    <div class="logo">Nex<span>Pay</span></div>
 
-        <input
-            class="search"
-            id="search"
-            type="search"
-            placeholder="🔎 Поиск товаров..."
-        >
+    <input class="search"
+        type="search"
+        placeholder="Поиск игр, товаров и услуг..."
+        aria-label="Поиск">
 
-        <h2 class="section-title">Категории</h2>
+    <div class="header-actions">
+        <button class="sell-button">＋ Продать</button>
+        <button>Чаты</button>
+        <button aria-label="Уведомления">♧</button>
+        <button>Профиль</button>
+    </div>
+</header>
 
-        <div class="categories">
-            <button class="category active" data-category="all">Все</button>
-            <button class="category" data-category="games">🎮 Игры</button>
-            <button class="category" data-category="accounts">👤 Аккаунты</button>
-            <button class="category" data-category="services">⚙️ Услуги</button>
-            <button class="category" data-category="other">📦 Другое</button>
+<nav class="nav">
+    <button class="active">Главная</button>
+    <button>Игры</button>
+    <button>Подписки</button>
+    <button>Telegram Stars</button>
+    <button>Аккаунты</button>
+    <button>Валюта</button>
+    <button>Предметы</button>
+    <button>Услуги</button>
+    <button>Другое</button>
+</nav>
+
+<main>
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-label">GAMING MARKETPLACE</div>
+            <h1>Игровой мир<br>в одном месте</h1>
+            <p>Игры, аккаунты, донат, Telegram Stars и цифровые товары.</p>
+            <button class="hero-button">Исследовать NexPay →</button>
+        </div>
+        <div class="hero-art">🎮</div>
+    </section>
+
+    <section class="section">
+        <div class="section-heading">
+            <h2>Популярные игры</h2>
+            <button>Все игры →</button>
         </div>
 
-        <h2 class="section-title">🔥 Популярные предложения</h2>
+        <div class="games">
+            <button class="game"><span class="game-icon">🎮</span><span class="game-name">Roblox</span></button>
+            <button class="game"><span class="game-icon">🎯</span><span class="game-name">PUBG Mobile</span></button>
+            <button class="game"><span class="game-icon">⭐</span><span class="game-name">Brawl Stars</span></button>
+            <button class="game"><span class="game-icon">⚔️</span><span class="game-name">Genshin</span></button>
+            <button class="game"><span class="game-icon">🧱</span><span class="game-name">Minecraft</span></button>
+            <button class="game"><span class="game-icon">✈️</span><span class="game-name">Telegram</span></button>
+            <button class="game"><span class="game-icon">🔫</span><span class="game-name">Standoff 2</span></button>
+            <button class="game"><span class="game-icon">🕹️</span><span class="game-name">Steam</span></button>
+        </div>
+    </section>
 
-        <section class="products" id="products">
-            <div class="empty">
-                Пока нет опубликованных товаров.<br>
-                Скоро здесь появятся предложения продавцов!
-            </div>
-        </section>
-    </main>
+    <section class="section">
+        <div class="section-heading">
+            <h2>Категории товаров</h2>
+            <button>Все категории →</button>
+        </div>
 
-    <nav>
-        <button class="active"><span>🏠</span>Главная</button>
-        <button><span>❤️</span>Избранное</button>
-        <button><span>➕</span>Продать</button>
-        <button><span>📦</span>Покупки</button>
-        <button><span>👤</span>Профиль</button>
-    </nav>
+        <div class="categories">
+            <button class="category"><span class="category-icon">🪙</span><span class="category-name">Донат</span></button>
+            <button class="category"><span class="category-icon">👤</span><span class="category-name">Аккаунты</span></button>
+            <button class="category"><span class="category-icon">💎</span><span class="category-name">Валюта</span></button>
+            <button class="category"><span class="category-icon">📦</span><span class="category-name">Предметы</span></button>
+            <button class="category"><span class="category-icon">👑</span><span class="category-name">Подписки</span></button>
+            <button class="category"><span class="category-icon">⭐</span><span class="category-name">Stars</span></button>
+            <button class="category"><span class="category-icon">🔑</span><span class="category-name">Ключи</span></button>
+            <button class="category"><span class="category-icon">🛠️</span><span class="category-name">Услуги</span></button>
+        </div>
+    </section>
 
-    <script>
-        const tg = window.Telegram.WebApp;
-        tg.ready();
-        tg.expand();
+    <section class="section">
+        <div class="section-heading">
+            <h2>Популярные предложения</h2>
+            <button>Все предложения →</button>
+        </div>
 
-        const search = document.getElementById("search");
-        const categories = document.querySelectorAll(".category");
+        <div class="filters">
+            <button class="filter active">Все</button>
+            <button class="filter">Со скидкой</button>
+            <button class="filter">Автовыдача</button>
+            <button class="filter">Высокий рейтинг</button>
+            <button class="filter">Новые</button>
+        </div>
 
-        search.addEventListener("input", () => {
-            // Поиск подключим к реальным товарам через API.
-        });
+        <div class="empty">
+            <div class="empty-icon">🛍️</div>
+            <strong>Здесь появятся предложения продавцов</strong>
+            <p>Публикуй объявления и находи интересные товары.<br>
+            Каталог подключим к базе NexPay.</p>
+        </div>
+    </section>
+</main>
 
-        categories.forEach(button => {
-            button.addEventListener("click", () => {
-                categories.forEach(item =>
-                    item.classList.remove("active")
-                );
-                button.classList.add("active");
-            });
-        });
-    </script>
+<footer class="footer">
+    NexPay © 2026 · Игровой маркетплейс
+</footer>
+
+</div>
+
+<script>
+const tg = window.Telegram.WebApp;
+tg.ready();
+tg.expand();
+</script>
 </body>
 </html>
