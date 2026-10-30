@@ -4,9 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#090d18">
-    <title>NexPay</title>
-
+    <meta name="theme-color" content="#0b1020">
+    <title>NexPay — Маркетплейс</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
     <style>
@@ -17,106 +16,245 @@
         }
 
         body {
-            min-height: 100vh;
-            background: #090d18;
-            color: #ffffff;
+            background: #0b1020;
+            color: #fff;
             font-family: Arial, sans-serif;
-            padding: 24px;
+            padding-bottom: 85px;
         }
 
-        .app {
-            max-width: 480px;
-            margin: 0 auto;
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px 16px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
         }
 
         .logo {
-            font-size: 30px;
+            font-size: 27px;
             font-weight: 800;
-            letter-spacing: -1px;
-            margin-top: 35px;
         }
 
         .logo span {
             color: #4388ff;
         }
 
-        .subtitle {
-            color: #8d9bb5;
-            margin-top: 12px;
+        .avatar {
+            background: #1b2942;
+            border-radius: 50%;
+            width: 42px;
+            height: 42px;
+            display: grid;
+            place-items: center;
+        }
+
+        h1 {
+            font-size: 25px;
+            margin-bottom: 8px;
+        }
+
+        .muted {
+            color: #8998b3;
             font-size: 14px;
         }
 
-        .welcome {
-            margin-top: 45px;
-            padding: 25px;
-            border: 1px solid #1c2b45;
-            border-radius: 20px;
-            background: #101a2b;
+        .search {
+            width: 100%;
+            margin: 22px 0;
+            padding: 16px;
+            border: 1px solid #243451;
+            border-radius: 13px;
+            background: #141e32;
+            color: white;
+            font-size: 15px;
+            outline: none;
         }
 
-        .welcome h1 {
-            font-size: 24px;
+        .section-title {
+            font-size: 19px;
+            margin: 25px 0 15px;
+        }
+
+        .categories {
+            display: flex;
+            gap: 9px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+        }
+
+        .category {
+            white-space: nowrap;
+            padding: 11px 16px;
+            border-radius: 20px;
+            background: #17243b;
+            color: #c4d1e8;
+            font-size: 13px;
+            border: 1px solid #263957;
+        }
+
+        .category.active {
+            background: #347cf6;
+            color: white;
+            border-color: #347cf6;
+        }
+
+        .products {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .product {
+            background: #141e32;
+            border: 1px solid #243451;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .product-image {
+            height: 115px;
+            background: #1d2c47;
+            display: grid;
+            place-items: center;
+            font-size: 38px;
+        }
+
+        .product-info {
+            padding: 12px;
+        }
+
+        .product-name {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .product-description {
+            color: #8998b3;
+            font-size: 12px;
             margin-bottom: 12px;
         }
 
-        .welcome p {
-            color: #9baac2;
-            font-size: 14px;
-            line-height: 1.6;
+        .price {
+            font-size: 17px;
+            font-weight: 800;
+            color: #6da2ff;
         }
 
-        .button {
-            display: block;
-            width: 100%;
-            margin-top: 25px;
-            padding: 17px;
-            border: none;
-            border-radius: 13px;
-            background: #347cf6;
-            color: white;
-            font-size: 16px;
-            font-weight: 700;
-        }
-
-        .footer {
-            margin-top: 35px;
+        .empty {
+            grid-column: 1 / -1;
+            padding: 25px 15px;
             text-align: center;
-            color: #64738d;
-            font-size: 12px;
+            color: #8998b3;
+            background: #141e32;
+            border-radius: 14px;
+            font-size: 14px;
+        }
+
+        nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #111a2b;
+            border-top: 1px solid #26334b;
+            display: flex;
+            justify-content: space-around;
+            padding: 13px 5px;
+            padding-bottom: max(13px, env(safe-area-inset-bottom));
+        }
+
+        nav button {
+            border: none;
+            background: none;
+            color: #8291aa;
+            font-size: 11px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        nav button span {
+            font-size: 20px;
+        }
+
+        nav button.active {
+            color: #5b98ff;
         }
     </style>
 </head>
 
 <body>
-    <main class="app">
-        <div class="logo">Nex<span>Pay</span></div>
-        <div class="subtitle">Цифровой маркетплейс нового поколения</div>
+    <main class="container">
+        <header>
+            <div class="logo">Nex<span>Pay</span></div>
+            <div class="avatar">👤</div>
+        </header>
 
-        <section class="welcome">
-            <h1>Добро пожаловать!</h1>
-            <p>
-                Покупайте и продавайте цифровые товары
-                в одном месте. Удобно, быстро и безопасно.
-            </p>
+        <h1>Каталог товаров</h1>
+        <p class="muted">Находи интересные предложения</p>
 
-            <button class="button" onclick="openCatalog()">
-                Перейти в каталог
-            </button>
-        </section>
+        <input
+            class="search"
+            id="search"
+            type="search"
+            placeholder="🔎 Поиск товаров..."
+        >
 
-        <div class="footer">
-            NexPay © 2026
+        <h2 class="section-title">Категории</h2>
+
+        <div class="categories">
+            <button class="category active" data-category="all">Все</button>
+            <button class="category" data-category="games">🎮 Игры</button>
+            <button class="category" data-category="accounts">👤 Аккаунты</button>
+            <button class="category" data-category="services">⚙️ Услуги</button>
+            <button class="category" data-category="other">📦 Другое</button>
         </div>
+
+        <h2 class="section-title">🔥 Популярные предложения</h2>
+
+        <section class="products" id="products">
+            <div class="empty">
+                Пока нет опубликованных товаров.<br>
+                Скоро здесь появятся предложения продавцов!
+            </div>
+        </section>
     </main>
+
+    <nav>
+        <button class="active"><span>🏠</span>Главная</button>
+        <button><span>❤️</span>Избранное</button>
+        <button><span>➕</span>Продать</button>
+        <button><span>📦</span>Покупки</button>
+        <button><span>👤</span>Профиль</button>
+    </nav>
 
     <script>
         const tg = window.Telegram.WebApp;
         tg.ready();
         tg.expand();
 
-        function openCatalog() {
-            tg.showAlert("Каталог NexPay скоро появится!");
-        }
+        const search = document.getElementById("search");
+        const categories = document.querySelectorAll(".category");
+
+        search.addEventListener("input", () => {
+            // Поиск подключим к реальным товарам через API.
+        });
+
+        categories.forEach(button => {
+            button.addEventListener("click", () => {
+                categories.forEach(item =>
+                    item.classList.remove("active")
+                );
+                button.classList.add("active");
+            });
+        });
     </script>
 </body>
 </html>
