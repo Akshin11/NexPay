@@ -1,0 +1,122 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#090d18">
+    <title>NexPay</title>
+
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #090d18;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            padding: 24px;
+        }
+
+        .app {
+            max-width: 480px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 30px;
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin-top: 35px;
+        }
+
+        .logo span {
+            color: #4388ff;
+        }
+
+        .subtitle {
+            color: #8d9bb5;
+            margin-top: 12px;
+            font-size: 14px;
+        }
+
+        .welcome {
+            margin-top: 45px;
+            padding: 25px;
+            border: 1px solid #1c2b45;
+            border-radius: 20px;
+            background: #101a2b;
+        }
+
+        .welcome h1 {
+            font-size: 24px;
+            margin-bottom: 12px;
+        }
+
+        .welcome p {
+            color: #9baac2;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .button {
+            display: block;
+            width: 100%;
+            margin-top: 25px;
+            padding: 17px;
+            border: none;
+            border-radius: 13px;
+            background: #347cf6;
+            color: white;
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .footer {
+            margin-top: 35px;
+            text-align: center;
+            color: #64738d;
+            font-size: 12px;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="app">
+        <div class="logo">Nex<span>Pay</span></div>
+        <div class="subtitle">Цифровой маркетплейс нового поколения</div>
+
+        <section class="welcome">
+            <h1>Добро пожаловать!</h1>
+            <p>
+                Покупайте и продавайте цифровые товары
+                в одном месте. Удобно, быстро и безопасно.
+            </p>
+
+            <button class="button" onclick="openCatalog()">
+                Перейти в каталог
+            </button>
+        </section>
+
+        <div class="footer">
+            NexPay © 2026
+        </div>
+    </main>
+
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.ready();
+        tg.expand();
+
+        function openCatalog() {
+            tg.showAlert("Каталог NexPay скоро появится!");
+        }
+    </script>
+</body>
+</html>
