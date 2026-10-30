@@ -4,635 +4,513 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#101827">
+<meta name="theme-color" content="#101a2c">
 <title>NexPay — Игровой маркетплейс</title>
-
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
 <style>
-:root {
-  --bg:#101827;
-  --surface:#172338;
-  --card:#1b2940;
-  --card-hover:#22334e;
-  --border:#293b56;
-  --blue:#2878ff;
-  --blue-light:#4d91ff;
-  --white:#fff;
-  --muted:#9aabc2;
-  --radius:13px;
+:root{
+ --bg:#101a2c;
+ --panel:#17243a;
+ --card:#1c2b43;
+ --card2:#21334f;
+ --border:#2b3e5c;
+ --blue:#347cf6;
+ --blue2:#65a0ff;
+ --white:#f6f8fc;
+ --muted:#9baac0;
+ --radius:14px;
 }
-
-* {box-sizing:border-box;margin:0;padding:0}
-body {
-  background:var(--bg);
-  color:var(--white);
-  font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
-  min-height:100vh;
+*{box-sizing:border-box}
+html{width:100%;overflow-x:hidden;scroll-behavior:smooth}
+body{
+ margin:0;width:100%;min-width:320px;overflow-x:hidden;
+ background:var(--bg);color:var(--white);
+ font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
 }
-button,input {font:inherit}
-button {cursor:pointer}
-a {color:inherit;text-decoration:none}
-button:focus-visible,input:focus-visible {
-  outline:2px solid var(--blue-light);
-  outline-offset:3px;
-}
-.container {max-width:1440px;margin:auto;padding:0 26px}
-
-/* ICONS */
-.icon {
-  width:20px;height:20px;
-  fill:none;stroke:currentColor;
-  stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;
-  flex-shrink:0;
-}
-.brand-logo {
-  width:42px;height:42px;
-  object-fit:contain;
-  border-radius:10px;
-}
+button,input{font:inherit}
+button{cursor:pointer}
+button:focus-visible,input:focus-visible{outline:2px solid var(--blue2);outline-offset:3px}
+svg{display:block}
+.wrap{width:100%;max-width:1440px;margin:auto;padding:0 28px}
 
 /* HEADER */
-.header {
-  background:#172338;
-  border-bottom:1px solid var(--border);
-  position:sticky;top:0;z-index:20;
+.topbar{
+ position:sticky;top:0;z-index:30;
+ background:#17243a;
+ border-bottom:1px solid var(--border);
 }
-.header-inner {
-  min-height:76px;
-  display:flex;align-items:center;gap:25px;
+.header{
+ min-height:75px;display:flex;align-items:center;gap:24px;
 }
-.logo {
-  font-size:29px;font-weight:900;
-  letter-spacing:-1.5px;white-space:nowrap;
+.logo{
+ color:white;text-decoration:none;
+ font-size:29px;font-weight:900;letter-spacing:-1.5px;
+ white-space:nowrap;
 }
-.logo span {color:var(--blue-light)}
-.search-wrap {
-  flex:1;position:relative;min-width:100px;
+.logo span{color:#4b91ff}
+.searchbox{flex:1;min-width:0;position:relative}
+.searchbox svg{
+ position:absolute;left:15px;top:50%;transform:translateY(-50%);
+ color:#91a6c5;width:19px;height:19px;
 }
-.search-wrap .icon {
-  position:absolute;left:15px;top:50%;
-  transform:translateY(-50%);color:var(--muted);
+.searchbox input{
+ width:100%;height:45px;border-radius:10px;
+ padding:0 15px 0 43px;
+ background:#101a2c;border:1px solid #304361;
+ color:white;outline:none;
 }
-.search {
-  width:100%;height:46px;
-  padding:0 15px 0 44px;
-  background:#101a2b;border:1px solid var(--border);
-  border-radius:10px;color:white;outline:none;
+.searchbox input::placeholder{color:#91a0b8}
+.searchbox input:focus{border-color:var(--blue)}
+.header-actions{display:flex;align-items:center;gap:19px}
+.header-actions button{
+ display:flex;align-items:center;gap:7px;
+ background:none;border:0;color:#c5d2e6;
+ font-size:13px;white-space:nowrap;
 }
-.search:focus {border-color:var(--blue)}
-.search::placeholder {color:var(--muted)}
-.header-actions {
-  display:flex;align-items:center;gap:19px;
+.header-actions svg{width:19px;height:19px}
+.header-actions .sell{
+ padding:12px 17px;border-radius:9px;
+ background:var(--blue);color:white;font-weight:700;
 }
-.header-actions button {
-  border:0;background:none;color:#d4deed;
-  display:flex;align-items:center;gap:7px;
-}
-.header-actions button:hover {color:white}
-.sell-button {
-  background:var(--blue)!important;
-  color:white!important;
-  padding:12px 18px;border-radius:9px;
-  font-weight:700;
-}
-.sell-button:hover {background:#1764e7!important}
+.header-actions .sell:hover{background:#1f68e8}
 
-/* NAVIGATION */
-.nav {
-  display:flex;align-items:center;gap:27px;
-  overflow-x:auto;scrollbar-width:none;
-  padding:16px 0;
+/* DESKTOP MENU */
+.nav{
+ display:flex;align-items:center;gap:27px;
+ overflow-x:auto;scrollbar-width:none;
+ padding:15px 0;
 }
-.nav::-webkit-scrollbar {display:none}
-.nav button {
-  background:none;border:0;color:#a9bad1;
-  font-size:14px;white-space:nowrap;
+.nav::-webkit-scrollbar{display:none}
+.nav button{
+ border:0;background:none;color:#aab9cf;
+ white-space:nowrap;font-size:13px;
 }
-.nav button:hover,.nav button.active {color:var(--blue-light)}
+.nav button:hover,.nav button.active{color:#70a9ff}
 
-/* MAIN BANNER */
-.hero {
-  margin-top:23px;
-  min-height:255px;
-  border:1px solid #315b9a;
-  border-radius:17px;
-  overflow:hidden;
-  padding:35px;
-  display:flex;align-items:center;
-  justify-content:space-between;
-  background:
-    radial-gradient(ellipse at 82% 50%,#2059a5 0%,transparent 43%),
-    linear-gradient(110deg,#18345c,#14243d 70%,#172b49);
+/* HERO */
+.hero{
+ position:relative;overflow:hidden;
+ display:flex;align-items:center;justify-content:space-between;
+ min-height:245px;margin-top:23px;padding:35px 40px;
+ border:1px solid #315b98;border-radius:17px;
+ background:
+ radial-gradient(ellipse at 82% 50%,#285ca5 0%,transparent 42%),
+ linear-gradient(105deg,#193966,#172a49 65%,#172d4e);
 }
-.hero-content {max-width:650px}
-.hero-label {
-  color:#8dbaff;font-size:12px;
-  font-weight:800;letter-spacing:2px;
+.hero-content{max-width:620px;position:relative;z-index:1}
+.hero-tag{
+ display:inline-flex;align-items:center;gap:7px;
+ color:#9fc3ff;font-size:11px;font-weight:800;
+ letter-spacing:1.6px;
 }
-.hero h1 {
-  font-size:clamp(30px,4vw,46px);
-  line-height:1.12;margin:15px 0;
+.hero-tag svg{width:15px;height:15px}
+.hero h1{
+ font-size:clamp(30px,4vw,45px);
+ line-height:1.12;letter-spacing:-1.2px;
+ margin:16px 0 11px;
 }
-.hero p {
-  color:#c0cde0;line-height:1.6;font-size:15px;
+.hero p{font-size:14px;color:#c4d2e8;line-height:1.6}
+.hero-button{
+ display:inline-flex;align-items:center;gap:9px;
+ margin-top:21px;padding:13px 18px;
+ background:var(--blue);color:white;
+ border:0;border-radius:9px;font-weight:700;
 }
-.hero-button {
-  margin-top:21px;
-  border:0;border-radius:9px;
-  background:var(--blue);color:white;
-  font-weight:700;padding:13px 20px;
+.hero-art{
+ width:190px;height:170px;display:grid;place-items:center;
+ color:#b4d1ff;flex-shrink:0;
 }
-.hero-art {
-  width:180px;height:180px;
-  display:grid;place-items:center;
-  color:#a8caff;
-}
-.hero-art .icon {width:125px;height:125px;stroke-width:1}
+.hero-art svg{width:145px;height:145px;stroke-width:1.1}
 
-/* SECTIONS */
-.section {margin-top:32px}
-.section-heading {
-  display:flex;justify-content:space-between;
-  align-items:center;gap:12px;margin-bottom:16px;
+/* SECTION HEADERS */
+.section{margin-top:31px}
+.heading{
+ display:flex;justify-content:space-between;
+ align-items:center;gap:12px;margin-bottom:16px;
 }
-.section-heading h2 {font-size:20px;font-weight:750}
-.section-link {
-  background:none;border:0;color:#75aaff;
-  font-size:13px;white-space:nowrap;
+.heading h2{font-size:19px;font-weight:750;letter-spacing:-.3px}
+.link{
+ border:0;background:none;color:#77aaff;
+ font-size:13px;white-space:nowrap;
 }
 
-/* GAME CARDS */
-.games {
-  display:grid;
-  grid-template-columns:repeat(8,minmax(0,1fr));
-  gap:12px;
+/* GAME COLLECTION */
+.games{
+ display:grid;grid-template-columns:repeat(8,minmax(0,1fr));
+ gap:11px;
 }
-.game {
-  min-width:0;
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:12px;
-  padding:14px 7px;
-  color:white;text-align:center;
-  transition:.2s;
+.game{
+ min-width:0;padding:14px 6px;
+ border:1px solid var(--border);border-radius:12px;
+ background:var(--panel);color:white;text-align:center;
+ transition:background .18s,border-color .18s;
 }
-.game:hover {
-  background:var(--card-hover);
-  border-color:var(--blue);
-  transform:translateY(-2px);
+.game:hover{background:var(--card2);border-color:#477fc9}
+.game-logo{
+ width:53px;height:53px;object-fit:contain;
+ display:block;margin:0 auto 10px;
+ border-radius:11px;
 }
-.game-image {
-  width:53px;height:53px;
-  object-fit:contain;
-  margin:0 auto 10px;
-  border-radius:12px;
+.game-name{
+ display:block;font-size:12px;font-weight:650;
+ line-height:1.3;overflow-wrap:anywhere;
 }
-.game-fallback {
-  width:53px;height:53px;
-  margin:0 auto 10px;
-  display:grid;place-items:center;
-  background:#253b5c;border-radius:12px;
-}
-.game-name {
-  display:block;font-size:12px;
-  font-weight:650;overflow-wrap:anywhere;
+.logo-fallback{
+ width:53px;height:53px;margin:0 auto 10px;
+ display:grid;place-items:center;
+ border-radius:11px;background:#263e62;
+ color:#c9ddff;font-weight:800;font-size:17px;
 }
 
-/* CATEGORIES */
-.categories {
-  display:grid;
-  grid-template-columns:repeat(8,minmax(0,1fr));
-  gap:11px;
+/* CATEGORY CARDS */
+.categories{
+ display:grid;grid-template-columns:repeat(8,minmax(0,1fr));
+ gap:11px;
 }
-.category {
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:12px;
-  padding:17px 7px;
-  text-align:center;color:white;
-  transition:.2s;
+.category{
+ min-width:0;min-height:100px;
+ padding:16px 6px;
+ display:flex;flex-direction:column;
+ align-items:center;justify-content:center;gap:12px;
+ background:var(--panel);border:1px solid var(--border);
+ color:#dce7f8;border-radius:12px;
+ transition:.2s;
 }
-.category:hover {
-  background:var(--card-hover);
-  border-color:var(--blue);
-}
-.category .icon {
-  width:27px;height:27px;
-  margin:0 auto 11px;
-  color:#81b0ff;
-}
-.category-name {font-size:12px;display:block}
+.category:hover{background:var(--card2);border-color:#477fc9}
+.category svg{width:26px;height:26px;color:#80b0ff}
+.category span{font-size:11px;text-align:center;line-height:1.3}
 
 /* FILTERS */
-.filters {
-  display:flex;gap:9px;
-  overflow-x:auto;padding-bottom:5px;
-  margin-bottom:16px;
+.filters{
+ display:flex;gap:8px;overflow-x:auto;
+ scrollbar-width:none;padding-bottom:5px;
 }
-.filter {
-  white-space:nowrap;
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:8px;
-  padding:10px 14px;
-  color:#bdcbe0;font-size:13px;
+.filters::-webkit-scrollbar{display:none}
+.filter{
+ flex-shrink:0;padding:10px 14px;
+ background:var(--panel);border:1px solid var(--border);
+ border-radius:8px;color:#bdcbe0;font-size:12px;
 }
-.filter.active {
-  background:var(--blue);
-  border-color:var(--blue);color:white;
-}
+.filter.active{background:var(--blue);border-color:var(--blue);color:white}
 
-/* PRODUCT AREA */
-.products {
-  display:grid;
-  grid-template-columns:repeat(4,minmax(0,1fr));
-  gap:15px;
+/* PRODUCT PLACEHOLDERS */
+.product-grid{
+ display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+ gap:13px;
 }
-.empty {
-  grid-column:1/-1;
-  padding:43px 20px;
-  background:var(--surface);
-  border:1px dashed #3b5274;
-  border-radius:13px;
-  text-align:center;
+.empty{
+ grid-column:1/-1;
+ display:flex;flex-direction:column;align-items:center;
+ justify-content:center;text-align:center;
+ min-height:155px;padding:25px 15px;
+ background:var(--panel);border:1px dashed #405779;
+ border-radius:13px;
 }
-.empty .icon {
-  width:37px;height:37px;
-  color:#80aaff;margin-bottom:13px;
+.empty svg{width:31px;height:31px;color:#79aaff;margin-bottom:13px}
+.empty strong{font-size:14px}
+.empty p{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.5}
+.premium-label{
+ display:inline-flex;align-items:center;gap:5px;
+ background:#233d64;color:#b6d2ff;
+ border:1px solid #3a6095;border-radius:5px;
+ padding:4px 7px;font-size:10px;margin-left:7px;
+ vertical-align:middle;
 }
-.empty p {
-  color:var(--muted);
-  font-size:13px;line-height:1.6;margin-top:9px;
-}
-
-/* PREMIUM */
-.premium-label {
-  display:inline-flex;align-items:center;gap:5px;
-  color:#b8d3ff;font-size:11px;
-  border:1px solid #4168a2;
-  background:#20385e;
-  padding:5px 8px;border-radius:5px;
-  vertical-align:middle;margin-left:7px;
-}
+.premium-label svg{width:12px;height:12px}
 
 /* FOOTER */
-.footer {
-  border-top:1px solid var(--border);
-  margin-top:40px;padding:27px 0;
-  text-align:center;color:var(--muted);
-  font-size:12px;
+.footer{
+ border-top:1px solid var(--border);
+ margin-top:40px;padding:27px 0;
+ color:var(--muted);font-size:12px;text-align:center;
 }
 
-/* MOBILE NAVIGATION */
-.mobile-nav {display:none}
+/* MOBILE NAV */
+.mobile-nav{display:none}
 
 /* TABLET */
-@media(max-width:1050px) {
-  .container {padding:0 18px}
-  .games {grid-template-columns:repeat(4,minmax(0,1fr))}
-  .categories {grid-template-columns:repeat(4,minmax(0,1fr))}
-  .products {grid-template-columns:repeat(3,minmax(0,1fr))}
-  .header-inner {gap:16px}
-  .header-actions {gap:12px}
+@media(max-width:1050px){
+ .wrap{padding-left:19px;padding-right:19px}
+ .games{grid-template-columns:repeat(4,minmax(0,1fr))}
+ .categories{grid-template-columns:repeat(4,minmax(0,1fr))}
+ .product-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .header{gap:15px}
+ .header-actions{gap:12px}
 }
 
-/* PHONE */
-@media(max-width:650px) {
-  .container {padding:0 12px}
-  .header-inner {flex-wrap:wrap;gap:12px;padding:13px 0}
-  .logo {font-size:25px;flex:1}
-  .search-wrap {order:3;flex-basis:100%}
-  .search {height:43px}
-  .header-actions {gap:13px}
-  .header-actions button {font-size:12px}
-  .header-actions .sell-button {padding:11px 12px}
-  .header-actions .sell-button .icon {display:none}
-  .nav {gap:20px;padding:14px 0}
-  .nav button {font-size:13px}
+/* MOBILE */
+@media(max-width:650px){
+ .wrap{padding-left:12px;padding-right:12px}
+ .header{
+  min-height:auto;padding:12px 0;
+  display:grid;grid-template-columns:auto 1fr;
+  gap:11px 12px;
+ }
+ .logo{font-size:25px}
+ .header-actions{
+  justify-content:flex-end;gap:12px;
+ }
+ .header-actions button{font-size:0;gap:0}
+ .header-actions svg{width:21px;height:21px}
+ .header-actions .sell{
+  font-size:12px;padding:10px 12px;
+ }
+ .header-actions .sell svg{display:none}
+ .searchbox{grid-column:1/-1;grid-row:2}
+ .searchbox input{height:43px;font-size:13px}
+ .nav{gap:19px;padding:13px 0}
+ .nav button{font-size:12px}
 
-  .hero {
-    margin-top:15px;min-height:185px;
-    padding:20px 16px;border-radius:13px;
-  }
-  .hero h1 {font-size:27px}
-  .hero p {font-size:12px}
-  .hero-label {font-size:10px}
-  .hero-art {width:75px;height:75px}
-  .hero-art .icon {width:65px;height:65px}
-  .hero-button {font-size:12px;padding:11px 13px}
+ .hero{
+  margin-top:14px;min-height:180px;
+  padding:19px 15px;border-radius:13px;
+ }
+ .hero h1{font-size:25px;margin:12px 0 8px}
+ .hero p{font-size:12px;max-width:260px}
+ .hero-tag{font-size:9px;letter-spacing:1px}
+ .hero-art{width:75px;height:80px}
+ .hero-art svg{width:68px;height:68px}
+ .hero-button{font-size:12px;padding:11px 13px;margin-top:15px}
 
-  .section {margin-top:25px}
-  .section-heading h2 {font-size:17px}
-  .games {grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}
-  .game {padding:11px 3px}
-  .game-image,.game-fallback {width:43px;height:43px}
-  .game-name {font-size:10px}
-  .categories {grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}
-  .category {padding:13px 3px}
-  .category .icon {width:23px;height:23px}
-  .category-name {font-size:10px}
-  .products {grid-template-columns:repeat(2,minmax(0,1fr))}
+ .section{margin-top:25px}
+ .heading{margin-bottom:13px}
+ .heading h2{font-size:16px}
+ .link{font-size:11px}
 
-  .mobile-nav {
-    position:fixed;bottom:0;left:0;right:0;
-    z-index:30;display:flex;
-    justify-content:space-around;
-    background:#172338;
-    border-top:1px solid var(--border);
-    padding:10px 4px max(10px,env(safe-area-inset-bottom));
-  }
-  .mobile-nav button {
-    display:flex;flex-direction:column;
-    align-items:center;gap:4px;
-    border:0;background:none;
-    color:#9aabc2;font-size:10px;
-  }
-  .mobile-nav .icon {width:21px;height:21px}
-  .mobile-nav button.active {color:#65a0ff}
-  .footer {padding-bottom:90px}
+ .games{grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}
+ .game{padding:10px 3px;border-radius:10px}
+ .game-logo,.logo-fallback{width:43px;height:43px;margin-bottom:8px}
+ .game-name{font-size:10px}
+
+ .categories{grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}
+ .category{min-height:83px;padding:10px 3px;gap:9px;border-radius:10px}
+ .category svg{width:22px;height:22px}
+ .category span{font-size:10px}
+
+ .product-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+ .empty{min-height:130px;padding:20px 10px}
+ .empty strong{font-size:12px}
+ .empty p{font-size:11px}
+
+ .mobile-nav{
+  position:fixed;left:0;right:0;bottom:0;z-index:40;
+  display:grid;grid-template-columns:repeat(5,1fr);
+  background:#17243a;border-top:1px solid var(--border);
+  padding:9px 3px max(9px,env(safe-area-inset-bottom));
+ }
+ .mobile-nav button{
+  display:flex;flex-direction:column;align-items:center;
+  gap:5px;background:none;border:0;
+  color:#9aabc2;font-size:10px;
+ }
+ .mobile-nav svg{width:21px;height:21px}
+ .mobile-nav button.active{color:#73aaff}
+ .footer{padding-bottom:95px}
 }
 
-@media(max-width:360px) {
-  .container {padding:0 9px}
-  .hero {padding:16px 12px}
-  .hero h1 {font-size:23px}
-  .hero-art {width:55px}
-  .game-name {font-size:9px}
+/* SMALL PHONES */
+@media(max-width:360px){
+ .wrap{padding-left:9px;padding-right:9px}
+ .hero{padding:16px 11px}
+ .hero h1{font-size:22px}
+ .hero-art{width:55px}
+ .hero-art svg{width:49px;height:49px}
+ .game-name{font-size:9px}
+ .heading h2{font-size:15px}
 }
 </style>
 </head>
 
 <body>
 
-<!-- SVG ICON LIBRARY -->
+<!-- ICONS -->
 <svg xmlns="http://www.w3.org/2000/svg" style="display:none">
-  <symbol id="search" viewBox="0 0 24 24">
-    <circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/>
-  </symbol>
-  <symbol id="message" viewBox="0 0 24 24">
-    <path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8z"/>
-  </symbol>
-  <symbol id="user" viewBox="0 0 24 24">
-    <circle cx="12" cy="8" r="4"/><path d="M5 21a7 7 0 0 1 14 0"/>
-  </symbol>
-  <symbol id="home" viewBox="0 0 24 24">
-    <path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-6v-7h-4v7H4a1 1 0 0 1-1-1z"/>
-  </symbol>
-  <symbol id="heart" viewBox="0 0 24 24">
-    <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21l7.8-7.5 1.1-1.1a5.5 5.5 0 0 0-.1-7.8z"/>
-  </symbol>
-  <symbol id="plus" viewBox="0 0 24 24">
-    <path d="M12 5v14M5 12h14"/>
-  </symbol>
-  <symbol id="package" viewBox="0 0 24 24">
-    <path d="m12 3 9 5-9 5-9-5 9-5z"/><path d="M3 8v9l9 5 9-5V8M12 13v9"/>
-  </symbol>
-  <symbol id="wallet" viewBox="0 0 24 24">
-    <rect x="3" y="5" width="18" height="15" rx="2"/>
-    <path d="M3 9h18M16 15h.01"/>
-  </symbol>
-  <symbol id="bell" viewBox="0 0 24 24">
-    <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/>
-  </symbol>
-  <symbol id="gamepad" viewBox="0 0 24 24">
-    <path d="M6 12h4m-2-2v4m8-3h.01m2 2h.01M7 7h10a4 4 0 0 1 3.8 2.8l1.1 4a3 3 0 0 1-4.8 3.1l-2.1-1.7H9l-2.1 1.7a3 3 0 0 1-4.8-3.1l1.1-4A4 4 0 0 1 7 7z"/>
-  </symbol>
-  <symbol id="star" viewBox="0 0 24 24">
-    <path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-3-5.6 3 1.1-6.2L3 9.6l6.2-.9z"/>
-  </symbol>
-  <symbol id="key" viewBox="0 0 24 24">
-    <circle cx="8" cy="15" r="5"/><path d="m11.5 11.5 9-9M17 6l2 2m-5 1 2 2"/>
-  </symbol>
-  <symbol id="shield" viewBox="0 0 24 24">
-    <path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11z"/>
-    <path d="m9 12 2 2 4-4"/>
-  </symbol>
-  <symbol id="clock" viewBox="0 0 24 24">
-    <circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>
-  </symbol>
+<symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></symbol>
+<symbol id="i-message" viewBox="0 0 24 24"><path d="M21 11.5a8.5 8.5 0 0 1-12.3 7.6L3 21l1.9-5.7A8.5 8.5 0 1 1 21 11.5Z"/></symbol>
+<symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M5 21a7 7 0 0 1 14 0"/></symbol>
+<symbol id="i-home" viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-6v-7h-4v7H4a1 1 0 0 1-1-1z"/></symbol>
+<symbol id="i-heart" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21l7.8-7.5 1.1-1.1a5.5 5.5 0 0 0-.1-7.8z"/></symbol>
+<symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+<symbol id="i-package" viewBox="0 0 24 24"><path d="m12 3 9 5-9 5-9-5 9-5zM3 8v9l9 5 9-5V8M12 13v9"/></symbol>
+<symbol id="i-wallet" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="15" rx="2"/><path d="M3 9h18m-5 6h.01"/></symbol>
+<symbol id="i-game" viewBox="0 0 24 24"><path d="M6 12h4m-2-2v4m8-3h.01m2 2h.01M7 7h10a4 4 0 0 1 3.8 2.8l1.1 4a3 3 0 0 1-4.8 3.1l-2.1-1.7H9l-2.1 1.7a3 3 0 0 1-4.8-3.1l1.1-4A4 4 0 0 1 7 7z"/></symbol>
+<symbol id="i-star" viewBox="0 0 24 24"><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-3-5.6 3 1.1-6.2L3 9.6l6.2-.9z"/></symbol>
+<symbol id="i-key" viewBox="0 0 24 24"><circle cx="8" cy="15" r="5"/><path d="m11.5 11.5 9-9M17 6l2 2m-5 1 2 2"/></symbol>
+<symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11z"/><path d="m9 12 2 2 4-4"/></symbol>
+<symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
 </svg>
 
-<div class="header">
- <div class="container header-inner">
-  <a class="logo" href="#">Nex<span>Pay</span></a>
-
-  <div class="search-wrap">
-   <svg class="icon"><use href="#search"/></svg>
-   <input class="search" type="search" placeholder="Поиск игр, товаров и приложений...">
-  </div>
-
+<header class="topbar">
+ <div class="wrap header">
+  <a href="#" class="logo">Nex<span>Pay</span></a>
+  <label class="searchbox">
+   <svg><use href="#i-search"/></svg>
+   <input type="search" placeholder="Найти игру, товар или услугу...">
+  </label>
   <div class="header-actions">
-   <button class="sell-button">
-    <svg class="icon"><use href="#plus"/></svg>
-    Продать
-   </button>
-   <button><svg class="icon"><use href="#message"/></svg>Чаты</button>
-   <button><svg class="icon"><use href="#bell"/></svg></button>
-   <button><svg class="icon"><use href="#user"/></svg>Профиль</button>
+   <button class="sell"><svg><use href="#i-plus"/></svg>Продать</button>
+   <button aria-label="Чаты"><svg><use href="#i-message"/></svg>Чаты</button>
+   <button aria-label="Профиль"><svg><use href="#i-user"/></svg>Профиль</button>
   </div>
  </div>
-</div>
+</header>
 
-<div class="container">
+<div class="wrap">
+ <nav class="nav">
+  <button class="active">Главная</button>
+  <button>Игры</button>
+  <button>Донат</button>
+  <button>Подписки</button>
+  <button>Telegram Stars</button>
+  <button>Аккаунты</button>
+  <button>Валюта</button>
+  <button>Предметы</button>
+  <button>Ключи</button>
+  <button>Услуги</button>
+ </nav>
 
-<nav class="nav">
- <button class="active">Главная</button>
- <button>Игры</button>
- <button>Донат</button>
- <button>Подписки</button>
- <button>Telegram Stars</button>
- <button>Аккаунты</button>
- <button>Валюта</button>
- <button>Предметы</button>
- <button>Ключи</button>
- <button>Услуги</button>
-</nav>
+ <main>
+  <section class="hero">
+   <div class="hero-content">
+    <div class="hero-tag">
+     <svg><use href="#i-game"/></svg>
+     NEXPAY GAMING MARKETPLACE
+    </div>
+    <h1>Всё для твоего<br>игрового мира</h1>
+    <p>Игровые товары, валюта, аккаунты, подписки и цифровые услуги.</p>
+    <button class="hero-button">Открыть каталог →</button>
+   </div>
+   <div class="hero-art">
+    <svg><use href="#i-game"/></svg>
+   </div>
+  </section>
 
-<main>
+  <section class="section">
+   <div class="heading">
+    <h2>Популярные игры и приложения</h2>
+    <button class="link">Все игры →</button>
+   </div>
+   <div class="games">
+    <button class="game">
+     <img class="game-logo" src="https://cdn.simpleicons.org/roblox/FFFFFF" alt="Roblox">
+     <span class="game-name">Roblox</span>
+    </button>
+    <button class="game">
+     <img class="game-logo" src="https://cdn.simpleicons.org/steam/FFFFFF" alt="Steam">
+     <span class="game-name">Steam</span>
+    </button>
+    <button class="game">
+     <img class="game-logo" src="https://cdn.simpleicons.org/minecraft/FFFFFF" alt="Minecraft">
+     <span class="game-name">Minecraft</span>
+    </button>
+    <button class="game">
+     <img class="game-logo" src="https://cdn.simpleicons.org/telegram/FFFFFF" alt="Telegram">
+     <span class="game-name">Telegram</span>
+    </button>
+    <button class="game">
+     <img class="game-logo" src="https://cdn.simpleicons.org/pubg/FFFFFF" alt="PUBG">
+     <span class="game-name">PUBG</span>
+    </button>
+    <button class="game">
+     <img class="game-logo" src="https://cdn.simpleicons.org/brawlstars/FFFFFF" alt="Brawl Stars">
+     <span class="game-name">Brawl Stars</span>
+    </button>
+    <button class="game">
+     <img class="game-logo" src="https://cdn.simpleicons.org/discord/FFFFFF" alt="Discord">
+     <span class="game-name">Discord</span>
+    </button>
+    <button class="game">
+     <img class="game-logo" src="https://cdn.simpleicons.org/playstation/FFFFFF" alt="PlayStation">
+     <span class="game-name">PlayStation</span>
+    </button>
+   </div>
+  </section>
 
-<section class="hero">
- <div class="hero-content">
-  <div class="hero-label">NEXPAY GAMING MARKETPLACE</div>
-  <h1>Всё для твоего<br>игрового мира</h1>
-  <p>Игровые товары, валюта, аккаунты, подписки и цифровые услуги.</p>
-  <button class="hero-button">Перейти в каталог</button>
- </div>
- <div class="hero-art">
-  <svg class="icon"><use href="#gamepad"/></svg>
- </div>
-</section>
+  <section class="section">
+   <div class="heading">
+    <h2>Категории товаров</h2>
+    <button class="link">Все категории →</button>
+   </div>
+   <div class="categories">
+    <button class="category"><svg><use href="#i-game"/></svg><span>Донат</span></button>
+    <button class="category"><svg><use href="#i-user"/></svg><span>Аккаунты</span></button>
+    <button class="category"><svg><use href="#i-star"/></svg><span>Игровая валюта</span></button>
+    <button class="category"><svg><use href="#i-package"/></svg><span>Предметы</span></button>
+    <button class="category"><svg><use href="#i-shield"/></svg><span>Подписки</span></button>
+    <button class="category"><svg><use href="#i-star"/></svg><span>Telegram Stars</span></button>
+    <button class="category"><svg><use href="#i-key"/></svg><span>Ключи</span></button>
+    <button class="category"><svg><use href="#i-wallet"/></svg><span>Услуги</span></button>
+   </div>
+  </section>
 
-<section class="section">
- <div class="section-heading">
-  <h2>Популярные игры и приложения</h2>
-  <button class="section-link">Все игры →</button>
- </div>
+  <section class="section">
+   <div class="heading">
+    <h2>Недавно просмотренные</h2>
+    <button class="link">История →</button>
+   </div>
+   <div class="product-grid">
+    <div class="empty">
+     <svg><use href="#i-clock"/></svg>
+     <strong>История пока пуста</strong>
+     <p>Здесь появятся недавно просмотренные товары.</p>
+    </div>
+   </div>
+  </section>
 
- <div class="games">
-  <button class="game">
-   <img class="game-image" src="https://cdn.simpleicons.org/roblox/FFFFFF" alt="Roblox">
-   <span class="game-name">Roblox</span>
-  </button>
-  <button class="game">
-   <img class="game-image" src="https://cdn.simpleicons.org/steam/FFFFFF" alt="Steam">
-   <span class="game-name">Steam</span>
-  </button>
-  <button class="game">
-   <img class="game-image" src="https://cdn.simpleicons.org/minecraft/FFFFFF" alt="Minecraft">
-   <span class="game-name">Minecraft</span>
-  </button>
-  <button class="game">
-   <img class="game-image" src="https://cdn.simpleicons.org/telegram/FFFFFF" alt="Telegram">
-   <span class="game-name">Telegram</span>
-  </button>
-  <button class="game">
-   <img class="game-image" src="https://cdn.simpleicons.org/pubg/FFFFFF" alt="PUBG">
-   <span class="game-name">PUBG</span>
-  </button>
-  <button class="game">
-   <img class="game-image" src="https://cdn.simpleicons.org/brawlstars/FFFFFF" alt="Brawl Stars">
-   <span class="game-name">Brawl Stars</span>
-  </button>
-  <button class="game">
-   <img class="game-image" src="https://cdn.simpleicons.org/discord/FFFFFF" alt="Discord">
-   <span class="game-name">Discord</span>
-  </button>
-  <button class="game">
-   <img class="game-image" src="https://cdn.simpleicons.org/playstation/FFFFFF" alt="PlayStation">
-   <span class="game-name">PlayStation</span>
-  </button>
- </div>
-</section>
+  <section class="section">
+   <div class="heading">
+    <h2>Премиум-предложения <span class="premium-label">TOP</span></h2>
+    <button class="link">Все →</button>
+   </div>
+   <div class="product-grid">
+    <div class="empty">
+     <svg><use href="#i-star"/></svg>
+     <strong>Пока нет премиум-объявлений</strong>
+     <p>Здесь будут товары с платным продвижением.</p>
+    </div>
+   </div>
+  </section>
 
-<section class="section">
- <div class="section-heading">
-  <h2>Категории товаров</h2>
-  <button class="section-link">Все категории →</button>
- </div>
+  <section class="section">
+   <div class="heading">
+    <h2>Все предложения</h2>
+    <button class="link">Все →</button>
+   </div>
+   <div class="filters">
+    <button class="filter active">Все</button>
+    <button class="filter">Новые</button>
+    <button class="filter">Сначала дешевле</button>
+    <button class="filter">Высокий рейтинг</button>
+    <button class="filter">Автовыдача</button>
+   </div>
+   <div class="product-grid">
+    <div class="empty">
+     <svg><use href="#i-package"/></svg>
+     <strong>Объявлений пока нет</strong>
+     <p>Опубликованные продавцами товары появятся здесь.</p>
+    </div>
+   </div>
+  </section>
+ </main>
 
- <div class="categories">
-  <button class="category">
-   <svg class="icon"><use href="#gamepad"/></svg>
-   <span class="category-name">Донат</span>
-  </button>
-  <button class="category">
-   <svg class="icon"><use href="#user"/></svg>
-   <span class="category-name">Аккаунты</span>
-  </button>
-  <button class="category">
-   <svg class="icon"><use href="#star"/></svg>
-   <span class="category-name">Валюта</span>
-  </button>
-  <button class="category">
-   <svg class="icon"><use href="#package"/></svg>
-   <span class="category-name">Предметы</span>
-  </button>
-  <button class="category">
-   <svg class="icon"><use href="#shield"/></svg>
-   <span class="category-name">Подписки</span>
-  </button>
-  <button class="category">
-   <svg class="icon"><use href="#star"/></svg>
-   <span class="category-name">Telegram Stars</span>
-  </button>
-  <button class="category">
-   <svg class="icon"><use href="#key"/></svg>
-   <span class="category-name">Ключи</span>
-  </button>
-  <button class="category">
-   <svg class="icon"><use href="#wallet"/></svg>
-   <span class="category-name">Услуги</span>
-  </button>
- </div>
-</section>
-
-<section class="section">
- <div class="section-heading">
-  <h2>Недавно просмотренные</h2>
-  <button class="section-link">История →</button>
- </div>
- <div class="products">
-  <div class="empty">
-   <svg class="icon"><use href="#clock"/></svg>
-   <strong>История пока пуста</strong>
-   <p>Просмотренные игры и товары появятся здесь.</p>
-  </div>
- </div>
-</section>
-
-<section class="section">
- <div class="section-heading">
-  <h2>Премиум-предложения
-   <span class="premium-label">
-    <svg class="icon" style="width:13px;height:13px"><use href="#star"/></svg>
-    TOP
-   </span>
-  </h2>
-  <button class="section-link">Все →</button>
- </div>
- <div class="products">
-  <div class="empty">
-   <svg class="icon"><use href="#star"/></svg>
-   <strong>Премиум-объявлений пока нет</strong>
-   <p>Здесь будут товары с платным продвижением.</p>
-  </div>
- </div>
-</section>
-
-<section class="section">
- <div class="section-heading">
-  <h2>Все предложения</h2>
-  <button class="section-link">Все →</button>
- </div>
-
- <div class="filters">
-  <button class="filter active">Все</button>
-  <button class="filter">Новые</button>
-  <button class="filter">Сначала дешевле</button>
-  <button class="filter">Высокий рейтинг</button>
-  <button class="filter">Автовыдача</button>
- </div>
-
- <div class="products">
-  <div class="empty">
-   <svg class="icon"><use href="#package"/></svg>
-   <strong>Объявлений пока нет</strong>
-   <p>Когда продавцы разместят товары, они появятся в каталоге.</p>
-  </div>
- </div>
-</section>
-
-</main>
-
-<footer class="footer">
- NexPay © 2026 · Игровой маркетплейс
-</footer>
+ <footer class="footer">NexPay © 2026 · Игровой маркетплейс</footer>
 </div>
 
 <nav class="mobile-nav">
- <button class="active">
-  <svg class="icon"><use href="#home"/></svg>Главная
- </button>
- <button>
-  <svg class="icon"><use href="#heart"/></svg>Избранное
- </button>
- <button>
-  <svg class="icon"><use href="#plus"/></svg>Продать
- </button>
- <button>
-  <svg class="icon"><use href="#package"/></svg>Покупки
- </button>
- <button>
-  <svg class="icon"><use href="#user"/></svg>Профиль
- </button>
+ <button class="active"><svg class="icon"><use href="#i-home"/></svg>Главная</button>
+ <button><svg class="icon"><use href="#i-heart"/></svg>Избранное</button>
+ <button><svg class="icon"><use href="#i-plus"/></svg>Продать</button>
+ <button><svg class="icon"><use href="#i-package"/></svg>Покупки</button>
+ <button><svg class="icon"><use href="#i-user"/></svg>Профиль</button>
 </nav>
 
 <script>
-const tg = window.Telegram.WebApp;
-tg.ready();
-tg.expand();
+const tg=window.Telegram?.WebApp;
+if(tg){
+ tg.ready();
+ tg.expand();
+}
 </script>
-
 </body>
 </html>
