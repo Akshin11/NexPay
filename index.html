@@ -4,340 +4,628 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#111315">
+<meta name="theme-color" content="#101827">
 <title>NexPay — Игровой маркетплейс</title>
+
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
 <style>
 :root {
-  --bg:#111315;
-  --panel:#202328;
-  --card:#191d20;
-  --border:#2b3232;
-  --accent:#19c9a5;
-  --text:#f4f6f5;
-  --muted:#929b9a;
+  --bg:#101827;
+  --surface:#172338;
+  --card:#1b2940;
+  --card-hover:#22334e;
+  --border:#293b56;
+  --blue:#2878ff;
+  --blue-light:#4d91ff;
+  --white:#fff;
+  --muted:#9aabc2;
+  --radius:13px;
 }
-*{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--text);font-family:Arial,sans-serif}
-button,input{font:inherit}
-button{cursor:pointer;color:inherit}
-.page{max-width:1600px;margin:auto;padding:0 20px}
+
+* {box-sizing:border-box;margin:0;padding:0}
+body {
+  background:var(--bg);
+  color:var(--white);
+  font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+  min-height:100vh;
+}
+button,input {font:inherit}
+button {cursor:pointer}
+a {color:inherit;text-decoration:none}
+button:focus-visible,input:focus-visible {
+  outline:2px solid var(--blue-light);
+  outline-offset:3px;
+}
+.container {max-width:1440px;margin:auto;padding:0 26px}
+
+/* ICONS */
+.icon {
+  width:20px;height:20px;
+  fill:none;stroke:currentColor;
+  stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;
+  flex-shrink:0;
+}
+.brand-logo {
+  width:42px;height:42px;
+  object-fit:contain;
+  border-radius:10px;
+}
 
 /* HEADER */
-.header{
- position:sticky;top:0;z-index:10;
- background:#202328;border-radius:0 0 17px 17px;
- display:flex;align-items:center;gap:25px;
- padding:13px 20px;
+.header {
+  background:#172338;
+  border-bottom:1px solid var(--border);
+  position:sticky;top:0;z-index:20;
 }
-.logo{font-size:29px;font-weight:900;white-space:nowrap}
-.logo span{color:var(--accent)}
-.search{
- flex:1;min-width:100px;padding:17px;
- background:#121518;border:1px solid #303638;
- border-radius:12px;color:white;outline:none;
+.header-inner {
+  min-height:76px;
+  display:flex;align-items:center;gap:25px;
 }
-.search:focus{border-color:var(--accent)}
-.header-actions{display:flex;align-items:center;gap:19px}
-.header-actions button{border:0;background:none;color:#c4ccca}
-.header-actions .sell{
- background:var(--accent);color:#071b16;
- padding:13px 19px;border-radius:10px;font-weight:bold;
+.logo {
+  font-size:29px;font-weight:900;
+  letter-spacing:-1.5px;white-space:nowrap;
 }
+.logo span {color:var(--blue-light)}
+.search-wrap {
+  flex:1;position:relative;min-width:100px;
+}
+.search-wrap .icon {
+  position:absolute;left:15px;top:50%;
+  transform:translateY(-50%);color:var(--muted);
+}
+.search {
+  width:100%;height:46px;
+  padding:0 15px 0 44px;
+  background:#101a2b;border:1px solid var(--border);
+  border-radius:10px;color:white;outline:none;
+}
+.search:focus {border-color:var(--blue)}
+.search::placeholder {color:var(--muted)}
+.header-actions {
+  display:flex;align-items:center;gap:19px;
+}
+.header-actions button {
+  border:0;background:none;color:#d4deed;
+  display:flex;align-items:center;gap:7px;
+}
+.header-actions button:hover {color:white}
+.sell-button {
+  background:var(--blue)!important;
+  color:white!important;
+  padding:12px 18px;border-radius:9px;
+  font-weight:700;
+}
+.sell-button:hover {background:#1764e7!important}
 
-/* NAV */
-.nav{
- display:flex;gap:27px;overflow-x:auto;
- padding:17px 5px;border-bottom:1px solid var(--border);
- scrollbar-width:none;
+/* NAVIGATION */
+.nav {
+  display:flex;align-items:center;gap:27px;
+  overflow-x:auto;scrollbar-width:none;
+  padding:16px 0;
 }
-.nav::-webkit-scrollbar{display:none}
-.nav button{
- border:0;background:none;color:#aab3b0;
- white-space:nowrap;font-size:14px;
+.nav::-webkit-scrollbar {display:none}
+.nav button {
+  background:none;border:0;color:#a9bad1;
+  font-size:14px;white-space:nowrap;
 }
-.nav button.active{color:var(--accent)}
+.nav button:hover,.nav button.active {color:var(--blue-light)}
 
-/* BANNER */
-.banner{
- margin-top:20px;min-height:280px;
- border-radius:17px;overflow:hidden;
- padding:35px;
- display:flex;align-items:center;
- justify-content:space-between;
- background:
- radial-gradient(circle at 80% 45%,#167b67 0%,transparent 35%),
- linear-gradient(110deg,#123b32,#102421 65%,#15332d);
- border:1px solid #286454;
+/* MAIN BANNER */
+.hero {
+  margin-top:23px;
+  min-height:255px;
+  border:1px solid #315b9a;
+  border-radius:17px;
+  overflow:hidden;
+  padding:35px;
+  display:flex;align-items:center;
+  justify-content:space-between;
+  background:
+    radial-gradient(ellipse at 82% 50%,#2059a5 0%,transparent 43%),
+    linear-gradient(110deg,#18345c,#14243d 70%,#172b49);
 }
-.banner-content{max-width:600px}
-.banner-label{color:#69e4c5;font-size:12px;letter-spacing:2px;font-weight:bold}
-.banner h1{font-size:clamp(30px,4vw,48px);margin:15px 0}
-.banner p{color:#c0d5ce;line-height:1.6}
-.banner-art{font-size:clamp(80px,12vw,150px);padding:20px}
-.banner button{
- margin-top:20px;background:var(--accent);color:#062019;
- border:0;border-radius:10px;padding:14px 21px;font-weight:bold;
+.hero-content {max-width:650px}
+.hero-label {
+  color:#8dbaff;font-size:12px;
+  font-weight:800;letter-spacing:2px;
 }
+.hero h1 {
+  font-size:clamp(30px,4vw,46px);
+  line-height:1.12;margin:15px 0;
+}
+.hero p {
+  color:#c0cde0;line-height:1.6;font-size:15px;
+}
+.hero-button {
+  margin-top:21px;
+  border:0;border-radius:9px;
+  background:var(--blue);color:white;
+  font-weight:700;padding:13px 20px;
+}
+.hero-art {
+  width:180px;height:180px;
+  display:grid;place-items:center;
+  color:#a8caff;
+}
+.hero-art .icon {width:125px;height:125px;stroke-width:1}
 
 /* SECTIONS */
-.section{margin-top:30px}
-.heading{
- display:flex;justify-content:space-between;
- align-items:center;gap:12px;margin-bottom:17px;
+.section {margin-top:32px}
+.section-heading {
+  display:flex;justify-content:space-between;
+  align-items:center;gap:12px;margin-bottom:16px;
 }
-.heading h2{font-size:21px}
-.heading button{border:0;background:none;color:var(--accent)}
+.section-heading h2 {font-size:20px;font-weight:750}
+.section-link {
+  background:none;border:0;color:#75aaff;
+  font-size:13px;white-space:nowrap;
+}
 
-/* GAME LIST */
-.games{
- display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:12px;
+/* GAME CARDS */
+.games {
+  display:grid;
+  grid-template-columns:repeat(8,minmax(0,1fr));
+  gap:12px;
 }
-.game{
- background:var(--panel);border:1px solid var(--border);
- border-radius:13px;padding:13px 5px;
- text-align:center;min-width:0;
+.game {
+  min-width:0;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:14px 7px;
+  color:white;text-align:center;
+  transition:.2s;
 }
-.game-icon{
- width:58px;height:58px;margin:0 auto 9px;
- border-radius:13px;background:#263c36;
- display:grid;place-items:center;font-size:29px;
+.game:hover {
+  background:var(--card-hover);
+  border-color:var(--blue);
+  transform:translateY(-2px);
 }
-.game-name{font-size:12px;font-weight:bold;overflow-wrap:anywhere}
+.game-image {
+  width:53px;height:53px;
+  object-fit:contain;
+  margin:0 auto 10px;
+  border-radius:12px;
+}
+.game-fallback {
+  width:53px;height:53px;
+  margin:0 auto 10px;
+  display:grid;place-items:center;
+  background:#253b5c;border-radius:12px;
+}
+.game-name {
+  display:block;font-size:12px;
+  font-weight:650;overflow-wrap:anywhere;
+}
 
-/* SEARCH CATEGORIES */
-.category-tabs{display:flex;gap:10px;overflow-x:auto;padding-bottom:8px}
-.tab{
- white-space:nowrap;padding:12px 20px;border-radius:30px;
- border:1px solid var(--border);background:var(--panel);
- color:#cbd3d0;
+/* CATEGORIES */
+.categories {
+  display:grid;
+  grid-template-columns:repeat(8,minmax(0,1fr));
+  gap:11px;
 }
-.tab.active{background:var(--accent);color:#071b16;border-color:var(--accent)}
+.category {
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:17px 7px;
+  text-align:center;color:white;
+  transition:.2s;
+}
+.category:hover {
+  background:var(--card-hover);
+  border-color:var(--blue);
+}
+.category .icon {
+  width:27px;height:27px;
+  margin:0 auto 11px;
+  color:#81b0ff;
+}
+.category-name {font-size:12px;display:block}
 
-/* CATEGORY GRID */
-.categories{
- display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:11px;
+/* FILTERS */
+.filters {
+  display:flex;gap:9px;
+  overflow-x:auto;padding-bottom:5px;
+  margin-bottom:16px;
 }
-.category{
- background:var(--panel);border:1px solid var(--border);
- border-radius:12px;padding:16px 5px;text-align:center;
+.filter {
+  white-space:nowrap;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:10px 14px;
+  color:#bdcbe0;font-size:13px;
 }
-.category-icon{font-size:27px;margin-bottom:9px}
-.category-name{font-size:12px}
+.filter.active {
+  background:var(--blue);
+  border-color:var(--blue);color:white;
+}
 
-/* LISTINGS */
-.filters{display:flex;gap:9px;overflow-x:auto;margin-bottom:15px}
-.filter{
- white-space:nowrap;background:var(--panel);
- border:1px solid var(--border);border-radius:9px;
- padding:10px 14px;color:#cbd3d0;font-size:13px;
+/* PRODUCT AREA */
+.products {
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:15px;
 }
-.filter.active{background:var(--accent);color:#071b16}
-.listings{
- display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;
+.empty {
+  grid-column:1/-1;
+  padding:43px 20px;
+  background:var(--surface);
+  border:1px dashed #3b5274;
+  border-radius:13px;
+  text-align:center;
 }
-.empty{
- grid-column:1/-1;text-align:center;padding:38px 15px;
- background:var(--card);border:1px dashed #384642;border-radius:14px;
+.empty .icon {
+  width:37px;height:37px;
+  color:#80aaff;margin-bottom:13px;
 }
-.empty-icon{font-size:34px;margin-bottom:12px}
-.empty p{color:var(--muted);font-size:14px;margin-top:8px;line-height:1.5}
-.premium-title{color:#6ce5c5}
-.premium-label{
- display:inline-block;background:#164c40;color:#72e9c9;
- border-radius:5px;padding:4px 7px;font-size:11px;margin-left:7px;
+.empty p {
+  color:var(--muted);
+  font-size:13px;line-height:1.6;margin-top:9px;
+}
+
+/* PREMIUM */
+.premium-label {
+  display:inline-flex;align-items:center;gap:5px;
+  color:#b8d3ff;font-size:11px;
+  border:1px solid #4168a2;
+  background:#20385e;
+  padding:5px 8px;border-radius:5px;
+  vertical-align:middle;margin-left:7px;
 }
 
 /* FOOTER */
-.footer{text-align:center;color:var(--muted);padding:35px 10px;font-size:13px}
+.footer {
+  border-top:1px solid var(--border);
+  margin-top:40px;padding:27px 0;
+  text-align:center;color:var(--muted);
+  font-size:12px;
+}
 
-/* MOBILE NAV */
-.mobile-nav{display:none}
+/* MOBILE NAVIGATION */
+.mobile-nav {display:none}
 
 /* TABLET */
-@media(max-width:1000px){
- .games{grid-template-columns:repeat(4,minmax(0,1fr))}
- .categories{grid-template-columns:repeat(4,minmax(0,1fr))}
- .listings{grid-template-columns:repeat(3,minmax(0,1fr))}
- .page{padding:0 15px}
+@media(max-width:1050px) {
+  .container {padding:0 18px}
+  .games {grid-template-columns:repeat(4,minmax(0,1fr))}
+  .categories {grid-template-columns:repeat(4,minmax(0,1fr))}
+  .products {grid-template-columns:repeat(3,minmax(0,1fr))}
+  .header-inner {gap:16px}
+  .header-actions {gap:12px}
 }
 
 /* PHONE */
-@media(max-width:600px){
- .page{padding:0 12px}
- .header{padding:12px;gap:12px;flex-wrap:wrap}
- .logo{font-size:24px;flex:1}
- .search{order:3;flex-basis:100%;padding:13px}
- .header-actions{gap:12px}
- .header-actions button{font-size:12px}
- .header-actions .sell{padding:11px 13px}
- .nav{gap:19px;padding:14px 3px}
- .nav button{font-size:13px}
- .banner{min-height:190px;padding:20px 16px;margin-top:15px}
- .banner h1{font-size:27px}
- .banner p{font-size:13px}
- .banner-art{font-size:60px;padding:0}
- .banner button{padding:12px 14px;font-size:12px}
- .section{margin-top:25px}
- .heading h2{font-size:18px}
- .games{grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}
- .game{padding:10px 3px}
- .game-icon{width:47px;height:47px;font-size:24px}
- .game-name{font-size:10px}
- .categories{grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}
- .category{padding:12px 3px}
- .category-icon{font-size:23px}
- .category-name{font-size:10px}
- .listings{grid-template-columns:repeat(2,minmax(0,1fr))}
- .mobile-nav{
-  position:fixed;bottom:0;left:0;right:0;z-index:20;
-  display:flex;justify-content:space-around;
-  background:#202328;border-top:1px solid var(--border);
-  padding:11px 3px max(11px,env(safe-area-inset-bottom));
- }
- .mobile-nav button{
-  background:none;border:0;color:#aab4b0;
-  display:flex;flex-direction:column;align-items:center;gap:5px;
-  font-size:10px;
- }
- .mobile-nav button span{font-size:20px}
- .mobile-nav button.active{color:var(--accent)}
- .footer{padding-bottom:90px}
+@media(max-width:650px) {
+  .container {padding:0 12px}
+  .header-inner {flex-wrap:wrap;gap:12px;padding:13px 0}
+  .logo {font-size:25px;flex:1}
+  .search-wrap {order:3;flex-basis:100%}
+  .search {height:43px}
+  .header-actions {gap:13px}
+  .header-actions button {font-size:12px}
+  .header-actions .sell-button {padding:11px 12px}
+  .header-actions .sell-button .icon {display:none}
+  .nav {gap:20px;padding:14px 0}
+  .nav button {font-size:13px}
+
+  .hero {
+    margin-top:15px;min-height:185px;
+    padding:20px 16px;border-radius:13px;
+  }
+  .hero h1 {font-size:27px}
+  .hero p {font-size:12px}
+  .hero-label {font-size:10px}
+  .hero-art {width:75px;height:75px}
+  .hero-art .icon {width:65px;height:65px}
+  .hero-button {font-size:12px;padding:11px 13px}
+
+  .section {margin-top:25px}
+  .section-heading h2 {font-size:17px}
+  .games {grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}
+  .game {padding:11px 3px}
+  .game-image,.game-fallback {width:43px;height:43px}
+  .game-name {font-size:10px}
+  .categories {grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}
+  .category {padding:13px 3px}
+  .category .icon {width:23px;height:23px}
+  .category-name {font-size:10px}
+  .products {grid-template-columns:repeat(2,minmax(0,1fr))}
+
+  .mobile-nav {
+    position:fixed;bottom:0;left:0;right:0;
+    z-index:30;display:flex;
+    justify-content:space-around;
+    background:#172338;
+    border-top:1px solid var(--border);
+    padding:10px 4px max(10px,env(safe-area-inset-bottom));
+  }
+  .mobile-nav button {
+    display:flex;flex-direction:column;
+    align-items:center;gap:4px;
+    border:0;background:none;
+    color:#9aabc2;font-size:10px;
+  }
+  .mobile-nav .icon {width:21px;height:21px}
+  .mobile-nav button.active {color:#65a0ff}
+  .footer {padding-bottom:90px}
 }
-@media(max-width:360px){
- .page{padding:0 9px}
- .banner{padding:16px 12px}
- .banner h1{font-size:23px}
- .banner-art{font-size:45px}
+
+@media(max-width:360px) {
+  .container {padding:0 9px}
+  .hero {padding:16px 12px}
+  .hero h1 {font-size:23px}
+  .hero-art {width:55px}
+  .game-name {font-size:9px}
 }
 </style>
 </head>
 
 <body>
-<div class="page">
 
-<header class="header">
- <div class="logo">Nex<span>Pay</span></div>
- <input class="search" placeholder="⌕  Поиск игр и приложений..." aria-label="Поиск">
- <div class="header-actions">
-  <button class="sell">＋ Продать</button>
-  <button>✉ Чаты</button>
-  <button>♙ Профиль</button>
+<!-- SVG ICON LIBRARY -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+  <symbol id="search" viewBox="0 0 24 24">
+    <circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/>
+  </symbol>
+  <symbol id="message" viewBox="0 0 24 24">
+    <path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8z"/>
+  </symbol>
+  <symbol id="user" viewBox="0 0 24 24">
+    <circle cx="12" cy="8" r="4"/><path d="M5 21a7 7 0 0 1 14 0"/>
+  </symbol>
+  <symbol id="home" viewBox="0 0 24 24">
+    <path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-6v-7h-4v7H4a1 1 0 0 1-1-1z"/>
+  </symbol>
+  <symbol id="heart" viewBox="0 0 24 24">
+    <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21l7.8-7.5 1.1-1.1a5.5 5.5 0 0 0-.1-7.8z"/>
+  </symbol>
+  <symbol id="plus" viewBox="0 0 24 24">
+    <path d="M12 5v14M5 12h14"/>
+  </symbol>
+  <symbol id="package" viewBox="0 0 24 24">
+    <path d="m12 3 9 5-9 5-9-5 9-5z"/><path d="M3 8v9l9 5 9-5V8M12 13v9"/>
+  </symbol>
+  <symbol id="wallet" viewBox="0 0 24 24">
+    <rect x="3" y="5" width="18" height="15" rx="2"/>
+    <path d="M3 9h18M16 15h.01"/>
+  </symbol>
+  <symbol id="bell" viewBox="0 0 24 24">
+    <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/>
+  </symbol>
+  <symbol id="gamepad" viewBox="0 0 24 24">
+    <path d="M6 12h4m-2-2v4m8-3h.01m2 2h.01M7 7h10a4 4 0 0 1 3.8 2.8l1.1 4a3 3 0 0 1-4.8 3.1l-2.1-1.7H9l-2.1 1.7a3 3 0 0 1-4.8-3.1l1.1-4A4 4 0 0 1 7 7z"/>
+  </symbol>
+  <symbol id="star" viewBox="0 0 24 24">
+    <path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-3-5.6 3 1.1-6.2L3 9.6l6.2-.9z"/>
+  </symbol>
+  <symbol id="key" viewBox="0 0 24 24">
+    <circle cx="8" cy="15" r="5"/><path d="m11.5 11.5 9-9M17 6l2 2m-5 1 2 2"/>
+  </symbol>
+  <symbol id="shield" viewBox="0 0 24 24">
+    <path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11z"/>
+    <path d="m9 12 2 2 4-4"/>
+  </symbol>
+  <symbol id="clock" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>
+  </symbol>
+</svg>
+
+<div class="header">
+ <div class="container header-inner">
+  <a class="logo" href="#">Nex<span>Pay</span></a>
+
+  <div class="search-wrap">
+   <svg class="icon"><use href="#search"/></svg>
+   <input class="search" type="search" placeholder="Поиск игр, товаров и приложений...">
+  </div>
+
+  <div class="header-actions">
+   <button class="sell-button">
+    <svg class="icon"><use href="#plus"/></svg>
+    Продать
+   </button>
+   <button><svg class="icon"><use href="#message"/></svg>Чаты</button>
+   <button><svg class="icon"><use href="#bell"/></svg></button>
+   <button><svg class="icon"><use href="#user"/></svg>Профиль</button>
+  </div>
  </div>
-</header>
+</div>
+
+<div class="container">
 
 <nav class="nav">
- <button class="active">Все</button>
+ <button class="active">Главная</button>
  <button>Игры</button>
  <button>Донат</button>
  <button>Подписки</button>
- <button>Пополнение баланса</button>
+ <button>Telegram Stars</button>
  <button>Аккаунты</button>
+ <button>Валюта</button>
  <button>Предметы</button>
  <button>Ключи</button>
  <button>Услуги</button>
- <button>Другое</button>
 </nav>
 
 <main>
 
-<section class="banner">
- <div class="banner-content">
-  <div class="banner-label">NEXPAY GAMING MARKETPLACE</div>
-  <h1>Твой игровой мир<br>в одном месте</h1>
-  <p>Игры, игровые предметы, валюта, подписки и цифровые товары.</p>
-  <button onclick="document.querySelector('.section').scrollIntoView({behavior:'smooth'})">
-   Перейти к каталогу →
+<section class="hero">
+ <div class="hero-content">
+  <div class="hero-label">NEXPAY GAMING MARKETPLACE</div>
+  <h1>Всё для твоего<br>игрового мира</h1>
+  <p>Игровые товары, валюта, аккаунты, подписки и цифровые услуги.</p>
+  <button class="hero-button">Перейти в каталог</button>
+ </div>
+ <div class="hero-art">
+  <svg class="icon"><use href="#gamepad"/></svg>
+ </div>
+</section>
+
+<section class="section">
+ <div class="section-heading">
+  <h2>Популярные игры и приложения</h2>
+  <button class="section-link">Все игры →</button>
+ </div>
+
+ <div class="games">
+  <button class="game">
+   <img class="game-image" src="https://cdn.simpleicons.org/roblox/FFFFFF" alt="Roblox">
+   <span class="game-name">Roblox</span>
+  </button>
+  <button class="game">
+   <img class="game-image" src="https://cdn.simpleicons.org/steam/FFFFFF" alt="Steam">
+   <span class="game-name">Steam</span>
+  </button>
+  <button class="game">
+   <img class="game-image" src="https://cdn.simpleicons.org/minecraft/FFFFFF" alt="Minecraft">
+   <span class="game-name">Minecraft</span>
+  </button>
+  <button class="game">
+   <img class="game-image" src="https://cdn.simpleicons.org/telegram/FFFFFF" alt="Telegram">
+   <span class="game-name">Telegram</span>
+  </button>
+  <button class="game">
+   <img class="game-image" src="https://cdn.simpleicons.org/pubg/FFFFFF" alt="PUBG">
+   <span class="game-name">PUBG</span>
+  </button>
+  <button class="game">
+   <img class="game-image" src="https://cdn.simpleicons.org/brawlstars/FFFFFF" alt="Brawl Stars">
+   <span class="game-name">Brawl Stars</span>
+  </button>
+  <button class="game">
+   <img class="game-image" src="https://cdn.simpleicons.org/discord/FFFFFF" alt="Discord">
+   <span class="game-name">Discord</span>
+  </button>
+  <button class="game">
+   <img class="game-image" src="https://cdn.simpleicons.org/playstation/FFFFFF" alt="PlayStation">
+   <span class="game-name">PlayStation</span>
   </button>
  </div>
- <div class="banner-art">🎮</div>
 </section>
 
 <section class="section">
- <div class="heading">
-  <h2>Популярные игры и приложения</h2>
-  <button>Все →</button>
+ <div class="section-heading">
+  <h2>Категории товаров</h2>
+  <button class="section-link">Все категории →</button>
  </div>
- <div class="games">
-  <button class="game"><div class="game-icon">🎮</div><div class="game-name">Roblox</div></button>
-  <button class="game"><div class="game-icon">🎯</div><div class="game-name">PUBG Mobile</div></button>
-  <button class="game"><div class="game-icon">⭐</div><div class="game-name">Brawl Stars</div></button>
-  <button class="game"><div class="game-icon">⚔️</div><div class="game-name">Genshin Impact</div></button>
-  <button class="game"><div class="game-icon">🧱</div><div class="game-name">Minecraft</div></button>
-  <button class="game"><div class="game-icon">✈️</div><div class="game-name">Telegram</div></button>
-  <button class="game"><div class="game-icon">🔫</div><div class="game-name">Standoff 2</div></button>
-  <button class="game"><div class="game-icon">🕹️</div><div class="game-name">Steam</div></button>
- </div>
-</section>
 
-<section class="section">
- <div class="heading"><h2>Категории</h2><button>Все категории →</button></div>
  <div class="categories">
-  <button class="category"><div class="category-icon">🪙</div><div class="category-name">Донат</div></button>
-  <button class="category"><div class="category-icon">👤</div><div class="category-name">Аккаунты</div></button>
-  <button class="category"><div class="category-icon">💎</div><div class="category-name">Валюта</div></button>
-  <button class="category"><div class="category-icon">📦</div><div class="category-name">Предметы</div></button>
-  <button class="category"><div class="category-icon">👑</div><div class="category-name">Подписки</div></button>
-  <button class="category"><div class="category-icon">⭐</div><div class="category-name">Telegram Stars</div></button>
-  <button class="category"><div class="category-icon">🔑</div><div class="category-name">Ключи</div></button>
-  <button class="category"><div class="category-icon">🛠️</div><div class="category-name">Услуги</div></button>
+  <button class="category">
+   <svg class="icon"><use href="#gamepad"/></svg>
+   <span class="category-name">Донат</span>
+  </button>
+  <button class="category">
+   <svg class="icon"><use href="#user"/></svg>
+   <span class="category-name">Аккаунты</span>
+  </button>
+  <button class="category">
+   <svg class="icon"><use href="#star"/></svg>
+   <span class="category-name">Валюта</span>
+  </button>
+  <button class="category">
+   <svg class="icon"><use href="#package"/></svg>
+   <span class="category-name">Предметы</span>
+  </button>
+  <button class="category">
+   <svg class="icon"><use href="#shield"/></svg>
+   <span class="category-name">Подписки</span>
+  </button>
+  <button class="category">
+   <svg class="icon"><use href="#star"/></svg>
+   <span class="category-name">Telegram Stars</span>
+  </button>
+  <button class="category">
+   <svg class="icon"><use href="#key"/></svg>
+   <span class="category-name">Ключи</span>
+  </button>
+  <button class="category">
+   <svg class="icon"><use href="#wallet"/></svg>
+   <span class="category-name">Услуги</span>
+  </button>
  </div>
 </section>
 
 <section class="section">
- <div class="heading">
+ <div class="section-heading">
   <h2>Недавно просмотренные</h2>
+  <button class="section-link">История →</button>
  </div>
- <div class="empty">
-  <div class="empty-icon">◷</div>
-  <strong>Здесь появятся просмотренные игры</strong>
-  <p>История будет сохраняться автоматически.</p>
- </div>
-</section>
-
-<section class="section">
- <div class="heading">
-  <h2 class="premium-title">Премиум-предложения <span class="premium-label">ТОП</span></h2>
-  <button>Все →</button>
- </div>
- <div class="listings">
+ <div class="products">
   <div class="empty">
-   <div class="empty-icon">✦</div>
-   <strong>Премиум-объявлений пока нет</strong>
-   <p>Здесь будут размещаться продвигаемые товары.</p>
+   <svg class="icon"><use href="#clock"/></svg>
+   <strong>История пока пуста</strong>
+   <p>Просмотренные игры и товары появятся здесь.</p>
   </div>
  </div>
 </section>
 
 <section class="section">
- <div class="heading"><h2>Все предложения</h2></div>
+ <div class="section-heading">
+  <h2>Премиум-предложения
+   <span class="premium-label">
+    <svg class="icon" style="width:13px;height:13px"><use href="#star"/></svg>
+    TOP
+   </span>
+  </h2>
+  <button class="section-link">Все →</button>
+ </div>
+ <div class="products">
+  <div class="empty">
+   <svg class="icon"><use href="#star"/></svg>
+   <strong>Премиум-объявлений пока нет</strong>
+   <p>Здесь будут товары с платным продвижением.</p>
+  </div>
+ </div>
+</section>
+
+<section class="section">
+ <div class="section-heading">
+  <h2>Все предложения</h2>
+  <button class="section-link">Все →</button>
+ </div>
+
  <div class="filters">
   <button class="filter active">Все</button>
   <button class="filter">Новые</button>
   <button class="filter">Сначала дешевле</button>
   <button class="filter">Высокий рейтинг</button>
+  <button class="filter">Автовыдача</button>
  </div>
- <div class="listings">
+
+ <div class="products">
   <div class="empty">
-   <div class="empty-icon">🛍️</div>
-   <strong>Пока нет опубликованных товаров</strong>
-   <p>Когда продавцы создадут объявления, они появятся здесь.</p>
+   <svg class="icon"><use href="#package"/></svg>
+   <strong>Объявлений пока нет</strong>
+   <p>Когда продавцы разместят товары, они появятся в каталоге.</p>
   </div>
  </div>
 </section>
 
 </main>
 
-<footer class="footer">NexPay © 2026 · Игровой маркетплейс</footer>
+<footer class="footer">
+ NexPay © 2026 · Игровой маркетплейс
+</footer>
 </div>
 
 <nav class="mobile-nav">
- <button class="active"><span>⌂</span>Главная</button>
- <button><span>♡</span>Избранное</button>
- <button><span>＋</span>Продать</button>
- <button><span>▣</span>Покупки</button>
- <button><span>♙</span>Профиль</button>
+ <button class="active">
+  <svg class="icon"><use href="#home"/></svg>Главная
+ </button>
+ <button>
+  <svg class="icon"><use href="#heart"/></svg>Избранное
+ </button>
+ <button>
+  <svg class="icon"><use href="#plus"/></svg>Продать
+ </button>
+ <button>
+  <svg class="icon"><use href="#package"/></svg>Покупки
+ </button>
+ <button>
+  <svg class="icon"><use href="#user"/></svg>Профиль
+ </button>
 </nav>
 
 <script>
@@ -345,5 +633,6 @@ const tg = window.Telegram.WebApp;
 tg.ready();
 tg.expand();
 </script>
+
 </body>
 </html>
