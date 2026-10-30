@@ -10,653 +10,1023 @@
 
 <style>
 :root {
-  --bg:#f5f8ff;
-  --white:#fff;
-  --blue:#246bfa;
-  --blue-dark:#1455dc;
-  --text:#17243b;
-  --muted:#78869d;
-  --line:#e2e9f5;
-  --pale:#eaf1ff;
-}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth;overflow-x:hidden}
-body{
-  margin:0;
-  min-width:320px;
-  overflow-x:hidden;
-  background:var(--bg);
-  color:var(--text);
-  font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
-}
-button,input{font:inherit}
-button{cursor:pointer}
-a{text-decoration:none;color:inherit}
-svg{display:block}
-.wrap{width:min(1200px,calc(100% - 48px));margin:auto}
-
-/* HEADER */
-.topbar{
-  position:sticky;
-  top:0;
-  z-index:20;
-  background:rgba(255,255,255,.95);
-  backdrop-filter:blur(14px);
-  border-bottom:1px solid var(--line);
-}
-.header{
-  height:76px;
-  display:flex;
-  align-items:center;
-  gap:24px;
-}
-.brand{
-  display:flex;
-  align-items:center;
-  gap:9px;
-  font-size:25px;
-  font-weight:900;
-  letter-spacing:-1px;
-  white-space:nowrap;
-}
-.brand-mark{
-  width:32px;
-  height:32px;
-  border-radius:10px;
-  display:grid;
-  place-items:center;
-  color:white;
-  background:var(--blue);
-}
-.brand-mark svg{width:19px;height:19px}
-.brand-name span{color:var(--blue)}
-.search{
-  height:44px;
-  flex:1;
-  min-width:100px;
-  position:relative;
-}
-.search svg{
-  position:absolute;
-  left:14px;
-  top:13px;
-  width:18px;
-  height:18px;
-  color:#8b98ad;
-}
-.search input{
-  height:100%;
-  width:100%;
-  border:1px solid var(--line);
-  background:#f8faff;
-  border-radius:12px;
-  padding:0 15px 0 42px;
-  outline:0;
-}
-.search input:focus{border-color:#8bb2ff}
-.header-links{
-  display:flex;
-  align-items:center;
-  gap:20px;
-  white-space:nowrap;
-}
-.header-links button{
-  border:0;
-  background:none;
-  color:#53627a;
-  font-size:13px;
-  font-weight:650;
-}
-.btn{
-  border:0;
-  border-radius:11px;
-  padding:12px 19px;
-  font-size:13px;
-  font-weight:750;
-}
-.btn-primary{
-  color:white!important;
-  background:var(--blue)!important;
-  box-shadow:0 5px 12px #246bfa2b;
-}
-.btn-primary:hover{background:var(--blue-dark)!important}
-
-/* HERO */
-.hero{
-  margin-top:25px;
-  min-height:258px;
-  border-radius:22px;
-  overflow:hidden;
-  display:grid;
-  grid-template-columns:1.08fr .92fr;
-  background:linear-gradient(110deg,#e8f0ff,#f3f7ff 58%,#dce9ff);
-  border:1px solid #d9e6ff;
-}
-.hero-copy{
-  padding:38px 42px;
-  align-self:center;
-}
-.eyebrow{
-  color:var(--blue);
-  font-size:11px;
-  font-weight:850;
-  letter-spacing:1.4px;
-  text-transform:uppercase;
-}
-.hero h1{
-  font-size:clamp(29px,4vw,45px);
-  line-height:1.08;
-  letter-spacing:-1.7px;
-  margin:14px 0 12px;
-}
-.hero p{
-  color:#64738c;
-  font-size:14px;
-  line-height:1.65;
-  max-width:490px;
-}
-.hero .btn{margin-top:15px}
-.hero-visual{
-  min-height:258px;
-  display:grid;
-  place-items:center;
-  position:relative;
-  background:linear-gradient(135deg,#d8e6ff,#edf4ff);
-}
-.hero-visual:before,.hero-visual:after{
-  content:"";
-  position:absolute;
-  border-radius:50%;
-  border:1px solid #9dbfff80;
-}
-.hero-visual:before{width:210px;height:210px}
-.hero-visual:after{width:270px;height:270px}
-.hero-emblem{
-  width:116px;
-  height:116px;
-  border-radius:30px;
-  background:linear-gradient(145deg,#347cff,#1458e8);
-  display:grid;
-  place-items:center;
-  color:white;
-  box-shadow:0 20px 45px #246bfa45;
-  transform:rotate(-8deg);
-  z-index:1;
-}
-.hero-emblem svg{width:58px;height:58px}
-
-/* SECTIONS */
-.section{margin-top:36px}
-.section-head{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:14px;
-  margin-bottom:16px;
-}
-.section-head h2{
-  font-size:21px;
-  letter-spacing:-.5px;
-  margin:0;
-}
-.section-link{
-  border:0;
-  background:none;
-  color:var(--blue);
-  font-size:13px;
-  font-weight:700;
+  --bg: #f5f8ff;
+  --white: #ffffff;
+  --blue: #246bfa;
+  --blue-dark: #1455dc;
+  --text: #17243b;
+  --muted: #78869d;
+  --line: #e2e9f5;
+  --pale: #eaf1ff;
+  --radius: 15px;
 }
 
-/* GAMES */
-.games{
-  display:grid;
-  grid-template-columns:repeat(6,minmax(0,1fr));
-  gap:12px;
-}
-.game{
-  min-width:0;
-  padding:10px;
-  border:1px solid var(--line);
-  border-radius:15px;
-  background:white;
-  text-align:left;
-  transition:.18s;
-  box-shadow:0 3px 12px #173c7810;
-}
-.game:hover{
-  transform:translateY(-2px);
-  border-color:#b7cefa;
-  box-shadow:0 8px 28px #1d438214;
-}
-.game-image{
-  height:94px;
-  border-radius:11px;
-  background:linear-gradient(145deg,#edf3ff,#e4edff);
-  display:grid;
-  place-items:center;
-  margin-bottom:10px;
-  overflow:hidden;
-}
-.game-image img{
-  width:65px;
-  height:65px;
-  object-fit:contain;
-  border-radius:16px;
-}
-.game strong{
-  display:block;
-  font-size:13px;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  white-space:nowrap;
-}
-.game small{
-  display:block;
-  color:var(--muted);
-  font-size:11px;
-  margin-top:4px;
-}
-.fallback{
-  font-size:28px;
-  font-weight:900;
-  color:var(--blue);
+* { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
-/* PRODUCTS */
-.products{
-  display:grid;
-  grid-template-columns:repeat(4,minmax(0,1fr));
-  gap:14px;
-}
-.empty{
-  grid-column:1/-1;
-  padding:35px 16px;
-  text-align:center;
-  background:white;
-  border:1px dashed #cbd8eb;
-  border-radius:15px;
-  color:var(--muted);
-  font-size:13px;
-}
-.empty svg{
-  width:30px;
-  height:30px;
-  margin:0 auto 12px;
-  color:#8ba9dc;
+body {
+  margin: 0;
+  min-width: 320px;
+  overflow-x: hidden;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
 }
 
-/* FEATURES */
-.features{
-  display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:14px;
-  margin-top:38px;
-}
-.feature{
-  padding:21px;
-  border:1px solid var(--line);
-  border-radius:17px;
-  background:white;
-}
-.feature-icon{
-  width:38px;
-  height:38px;
-  border-radius:11px;
-  background:var(--pale);
-  color:var(--blue);
-  display:grid;
-  place-items:center;
-  margin-bottom:13px;
-}
-.feature-icon svg{width:20px;height:20px}
-.feature strong{font-size:14px}
-.feature p{
-  font-size:12px;
-  line-height:1.55;
-  color:var(--muted);
+button, input { font: inherit; }
+button { cursor: pointer; }
+a { color: inherit; text-decoration: none; }
+svg { display: block; }
+
+.wrap {
+  width: min(1200px, calc(100% - 48px));
+  margin: auto;
 }
 
-/* FOOTER */
-.footer{
-  margin-top:48px;
-  padding:26px 0 34px;
-  border-top:1px solid var(--line);
-  display:flex;
-  justify-content:space-between;
-  gap:25px;
-  color:var(--muted);
-  font-size:12px;
-}
-.footer-brand{
-  font-weight:850;
-  color:var(--text);
-  font-size:17px;
-}
-.footer-links{display:flex;gap:44px}
-.footer-links strong{
-  display:block;
-  color:var(--text);
-  margin-bottom:10px;
-}
-.footer-links a{display:block;margin:7px 0}
+/* ИКОНКИ */
 
-/* MOBILE NAV */
-.mobile-nav{display:none}
-
-/* TABLET */
-@media(max-width:900px){
-  .wrap{width:calc(100% - 32px)}
-  .header{gap:15px}
-  .header-links{gap:12px}
-  .games{grid-template-columns:repeat(4,minmax(0,1fr))}
-  .products{grid-template-columns:repeat(3,minmax(0,1fr))}
-  .hero-copy{padding:30px}
+.icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
 }
 
-/* MOBILE */
-@media(max-width:620px){
-  .wrap{width:calc(100% - 24px)}
-  .header{
-    height:auto;
-    display:grid;
-    grid-template-columns:1fr auto;
-    gap:11px;
-    padding:11px 0;
-  }
-  .brand{font-size:22px}
-  .header-links{gap:9px}
-  .header-links .text-link{display:none}
-  .header-links .btn{padding:10px 12px;font-size:12px}
-  .search{
-    grid-column:1/-1;
-    grid-row:2;
-    height:41px;
-  }
-  .hero{
-    margin-top:15px;
-    grid-template-columns:1fr;
-    min-height:0;
-    border-radius:17px;
-  }
-  .hero-copy{padding:24px 20px 22px}
-  .hero h1{
-    font-size:30px;
-    letter-spacing:-1px;
-  }
-  .hero p{font-size:12px}
-  .hero-visual{min-height:105px}
-  .hero-visual:before{width:100px;height:100px}
-  .hero-visual:after{width:145px;height:145px}
-  .hero-emblem{
-    width:60px;
-    height:60px;
-    border-radius:17px;
-  }
-  .hero-emblem svg{width:32px;height:32px}
-  .section{margin-top:27px}
-  .section-head h2{font-size:18px}
-  .games{
-    grid-template-columns:repeat(3,minmax(0,1fr));
-    gap:8px;
-  }
-  .game{padding:7px;border-radius:12px}
-  .game-image{height:72px;margin-bottom:8px}
-  .game-image img{width:48px;height:48px}
-  .game strong{font-size:11px}
-  .game small{font-size:10px}
-  .products{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .features{
-    grid-template-columns:1fr;
-    gap:9px;
-    margin-top:27px;
-  }
-  .feature{padding:15px}
-  .footer{
-    margin-top:30px;
-    padding-bottom:100px;
-    display:block;
-  }
-  .footer-links{margin-top:20px;gap:55px}
-  .mobile-nav{
-    position:fixed;
-    z-index:30;
-    bottom:0;
-    left:0;
-    right:0;
-    display:grid;
-    grid-template-columns:repeat(5,1fr);
-    padding:9px 4px max(9px,env(safe-area-inset-bottom));
-    background:rgba(255,255,255,.97);
-    border-top:1px solid var(--line);
-  }
-  .mobile-nav button{
-    border:0;
-    background:none;
-    color:#8290a6;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:4px;
-    font-size:9px;
-  }
-  .mobile-nav svg{width:20px;height:20px}
-  .mobile-nav button.active{color:var(--blue)}
+/* ШАПКА */
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: rgba(255,255,255,.96);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--line);
 }
-@media(max-width:360px){
-  .wrap{width:calc(100% - 18px)}
-  .hero h1{font-size:26px}
-  .game-image{height:62px}
+
+.header {
+  min-height: 72px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 25px;
+  font-weight: 900;
+  letter-spacing: -1px;
+  white-space: nowrap;
+}
+
+.brand-mark {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  color: white;
+  background: var(--blue);
+}
+
+.brand-mark svg { width: 19px; height: 19px; }
+.brand-name span { color: var(--blue); }
+
+.search {
+  height: 44px;
+  flex: 1;
+  min-width: 100px;
+  position: relative;
+}
+
+.search svg {
+  position: absolute;
+  left: 14px;
+  top: 13px;
+  color: #8b98ad;
+}
+
+.search input {
+  height: 100%;
+  width: 100%;
+  border: 1px solid var(--line);
+  background: #f8faff;
+  border-radius: 12px;
+  padding: 0 15px 0 42px;
+  outline: none;
+  color: var(--text);
+}
+
+.search input:focus { border-color: #8bb2ff; }
+
+.header-links {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  white-space: nowrap;
+}
+
+.header-links button {
+  border: 0;
+  background: none;
+  color: #53627a;
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.header-links button:hover { color: var(--blue); }
+
+.btn {
+  border: 0;
+  border-radius: 11px;
+  padding: 12px 19px;
+  font-size: 13px;
+  font-weight: 750;
+}
+
+.btn-primary {
+  color: white !important;
+  background: var(--blue) !important;
+  box-shadow: 0 5px 12px #246bfa2b;
+}
+
+.btn-primary:hover { background: var(--blue-dark) !important; }
+
+/* БАННЕР */
+
+.hero {
+  margin-top: 24px;
+  min-height: 250px;
+  border-radius: 21px;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1.08fr .92fr;
+  background: linear-gradient(110deg,#e8f0ff,#f3f7ff 58%,#dce9ff);
+  border: 1px solid #d9e6ff;
+}
+
+.hero-copy {
+  padding: 38px 42px;
+  align-self: center;
+}
+
+.eyebrow {
+  color: var(--blue);
+  font-size: 11px;
+  font-weight: 850;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+}
+
+.hero h1 {
+  font-size: clamp(29px,4vw,44px);
+  line-height: 1.08;
+  letter-spacing: -1.7px;
+  margin: 14px 0 12px;
+}
+
+.hero p {
+  color: #64738c;
+  font-size: 14px;
+  line-height: 1.65;
+  max-width: 490px;
+  margin: 0;
+}
+
+.hero .btn { margin-top: 20px; }
+
+.hero-visual {
+  min-height: 250px;
+  display: grid;
+  place-items: center;
+  position: relative;
+  background: linear-gradient(135deg,#d8e6ff,#edf4ff);
+}
+
+.hero-visual:before,
+.hero-visual:after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid #9dbfff80;
+}
+
+.hero-visual:before { width: 210px; height: 210px; }
+.hero-visual:after { width: 270px; height: 270px; }
+
+.hero-emblem {
+  width: 112px;
+  height: 112px;
+  border-radius: 29px;
+  background: linear-gradient(145deg,#347cff,#1458e8);
+  display: grid;
+  place-items: center;
+  color: white;
+  box-shadow: 0 20px 45px #246bfa45;
+  transform: rotate(-8deg);
+  z-index: 1;
+}
+
+.hero-emblem svg { width: 55px; height: 55px; }
+
+/* ЗАГОЛОВКИ */
+
+.section { margin-top: 31px; }
+
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 15px;
+}
+
+.section-head h2 {
+  font-size: 21px;
+  letter-spacing: -.5px;
+  margin: 0;
+}
+
+.section-link {
+  border: 0;
+  background: none;
+  color: var(--blue);
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* КОМПАКТНЫЙ КАТАЛОГ */
+
+.games {
+  display: flex;
+  gap: 15px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 4px 2px 12px;
+  scrollbar-width: thin;
+  scrollbar-color: #c5d5ee transparent;
+  -webkit-overflow-scrolling: touch;
+}
+
+.game {
+  flex: 0 0 88px;
+  width: 88px;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  text-align: center;
+  box-shadow: none;
+  transition: transform .18s;
+}
+
+.game:hover {
+  transform: translateY(-3px);
+  box-shadow: none;
+}
+
+.game-image {
+  width: 78px;
+  height: 78px;
+  margin: 0 auto 8px;
+  border-radius: 18px;
+  background: white;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid var(--line);
+}
+
+.game-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 18px;
+}
+
+.game strong {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.game small { display: none; }
+
+.game-fallback {
+  display: none;
+  font-size: 25px;
+  font-weight: 900;
+  color: var(--blue);
+}
+
+/* ОБЪЯВЛЕНИЯ */
+
+.listing-tools {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 5px;
+  margin-bottom: 14px;
+  scrollbar-width: none;
+}
+
+.listing-tools::-webkit-scrollbar { display: none; }
+
+.filter-btn {
+  flex-shrink: 0;
+  border: 1px solid var(--line);
+  background: white;
+  color: #64738c;
+  border-radius: 9px;
+  padding: 9px 13px;
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.filter-btn.active {
+  background: var(--blue);
+  border-color: var(--blue);
+  color: white;
+}
+
+.products {
+  display: grid;
+  grid-template-columns: repeat(4,minmax(0,1fr));
+  gap: 13px;
+}
+
+.product {
+  min-width: 0;
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 15px;
+  padding: 9px;
+  transition: .18s;
+  box-shadow: 0 3px 12px #173c7808;
+}
+
+.product:hover {
+  transform: translateY(-2px);
+  border-color: #b7cefa;
+  box-shadow: 0 8px 25px #173c7812;
+}
+
+.product-image {
+  width: 100%;
+  height: 135px;
+  border-radius: 10px;
+  background: linear-gradient(145deg,#edf3ff,#e5edfb);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+
+.product-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.product-info { padding: 10px 3px 3px; }
+
+.product-category {
+  font-size: 10px;
+  color: var(--blue);
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.product-title {
+  font-size: 13px;
+  font-weight: 750;
+  line-height: 1.4;
+  min-height: 36px;
+  overflow-wrap: anywhere;
+}
+
+.product-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 7px;
+  margin-top: 10px;
+}
+
+.seller {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 10px;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.seller-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.seller-dot {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: #e5edfb;
+}
+
+.price {
+  font-size: 14px;
+  font-weight: 850;
+  white-space: nowrap;
+}
+
+/* ПУСТОЙ КАТАЛОГ */
+
+.empty {
+  grid-column: 1/-1;
+  padding: 38px 16px;
+  text-align: center;
+  background: white;
+  border: 1px dashed #cbd8eb;
+  border-radius: 15px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.empty svg {
+  width: 30px;
+  height: 30px;
+  margin: 0 auto 12px;
+  color: #8ba9dc;
+}
+
+.empty strong {
+  display: block;
+  color: var(--text);
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+/* ПРЕИМУЩЕСТВА */
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(3,minmax(0,1fr));
+  gap: 14px;
+  margin-top: 35px;
+}
+
+.feature {
+  padding: 21px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: white;
+}
+
+.feature-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 11px;
+  background: var(--pale);
+  color: var(--blue);
+  display: grid;
+  place-items: center;
+  margin-bottom: 13px;
+}
+
+.feature strong { font-size: 14px; }
+
+.feature p {
+  font-size: 12px;
+  line-height: 1.55;
+  color: var(--muted);
+  margin-bottom: 0;
+}
+
+/* ПОДВАЛ */
+
+.footer {
+  margin-top: 45px;
+  padding: 26px 0 34px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  justify-content: space-between;
+  gap: 25px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.footer-brand {
+  font-weight: 850;
+  color: var(--text);
+  font-size: 17px;
+}
+
+.footer p { max-width: 290px; line-height: 1.5; }
+
+.footer-links {
+  display: flex;
+  gap: 44px;
+}
+
+.footer-links strong {
+  display: block;
+  color: var(--text);
+  margin-bottom: 10px;
+}
+
+.footer-links a { display: block; margin: 7px 0; }
+
+/* МОБИЛЬНАЯ НАВИГАЦИЯ */
+
+.mobile-nav { display: none; }
+
+/* ПЛАНШЕТ */
+
+@media(max-width: 950px) {
+  .wrap { width: calc(100% - 32px); }
+  .header { gap: 14px; }
+  .header-links { gap: 12px; }
+  .products { grid-template-columns: repeat(3,minmax(0,1fr)); }
+  .hero-copy { padding: 30px; }
+}
+
+/* ТЕЛЕФОН */
+
+@media(max-width: 620px) {
+  .wrap { width: calc(100% - 24px); }
+
+  .header {
+    min-height: 64px;
+    height: auto;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 11px;
+    padding: 10px 0;
+  }
+
+  .brand { font-size: 22px; }
+
+  .header-links { gap: 8px; }
+  .header-links .text-link { display: none; }
+  .header-links .btn { padding: 10px 12px; font-size: 12px; }
+
+  .search {
+    grid-column: 1/-1;
+    grid-row: 2;
+    height: 41px;
+  }
+
+  .hero {
+    margin-top: 15px;
+    grid-template-columns: 1fr;
+    min-height: 0;
+    border-radius: 17px;
+  }
+
+  .hero-copy { padding: 23px 19px; }
+
+  .hero h1 {
+    font-size: 29px;
+    letter-spacing: -1px;
+  }
+
+  .hero p { font-size: 12px; }
+
+  .hero-visual { min-height: 95px; }
+  .hero-visual:before { width: 95px; height: 95px; }
+  .hero-visual:after { width: 135px; height: 135px; }
+
+  .hero-emblem {
+    width: 57px;
+    height: 57px;
+    border-radius: 16px;
+  }
+
+  .hero-emblem svg { width: 30px; height: 30px; }
+
+  .section { margin-top: 25px; }
+  .section-head { margin-bottom: 11px; }
+  .section-head h2 { font-size: 18px; }
+  .section-link { font-size: 11px; }
+
+  .games {
+    gap: 11px;
+    padding-bottom: 9px;
+  }
+
+  .game {
+    flex-basis: 74px;
+    width: 74px;
+  }
+
+  .game-image {
+    width: 66px;
+    height: 66px;
+    border-radius: 15px;
+    margin-bottom: 7px;
+  }
+
+  .game-image img { border-radius: 15px; }
+  .game strong { font-size: 10px; }
+
+  .products {
+    grid-template-columns: repeat(2,minmax(0,1fr));
+    gap: 9px;
+  }
+
+  .product { padding: 7px; }
+  .product-image { height: 105px; }
+  .product-info { padding: 8px 2px 2px; }
+  .product-category { font-size: 9px; }
+  .product-title { font-size: 11px; min-height: 31px; }
+  .price { font-size: 12px; }
+  .seller { font-size: 9px; }
+
+  .empty { padding: 29px 13px; }
+
+  .features {
+    grid-template-columns: 1fr;
+    gap: 9px;
+    margin-top: 27px;
+  }
+
+  .feature {
+    padding: 15px;
+    display: grid;
+    grid-template-columns: 38px 1fr;
+    column-gap: 11px;
+    align-items: center;
+  }
+
+  .feature-icon {
+    grid-row: span 2;
+    margin: 0;
+  }
+
+  .feature strong { font-size: 13px; }
+  .feature p { margin-top: 4px; font-size: 11px; }
+
+  .footer {
+    margin-top: 30px;
+    padding-bottom: 100px;
+    display: block;
+  }
+
+  .footer-links { margin-top: 20px; gap: 55px; }
+
+  .mobile-nav {
+    position: fixed;
+    z-index: 30;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: grid;
+    grid-template-columns: repeat(5,1fr);
+    padding: 9px 4px max(9px,env(safe-area-inset-bottom));
+    background: rgba(255,255,255,.97);
+    backdrop-filter: blur(12px);
+    border-top: 1px solid var(--line);
+  }
+
+  .mobile-nav button {
+    border: 0;
+    background: none;
+    color: #8290a6;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    font-size: 9px;
+  }
+
+  .mobile-nav svg { width: 20px; height: 20px; }
+  .mobile-nav button.active { color: var(--blue); }
+}
+
+@media(max-width: 360px) {
+  .wrap { width: calc(100% - 18px); }
+  .hero h1 { font-size: 26px; }
+  .game { flex-basis: 69px; width: 69px; }
+  .game-image { width: 62px; height: 62px; }
+  .product-image { height: 90px; }
 }
 </style>
 </head>
 
 <body>
 
-<!-- ICONS -->
-<svg xmlns="http://www.w3.org/2000/svg" style="display:none" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-<symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11Z"/><path d="m9 12 2 2 4-4"/></symbol>
-<symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></symbol>
-<symbol id="i-star" viewBox="0 0 24 24"><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-3-5.6 3 1.1-6.2L3 9.6l6.2-.9Z"/></symbol>
-<symbol id="i-wallet" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="15" rx="2"/><path d="M3 9h18m-5 6h.01"/></symbol>
-<symbol id="i-package" viewBox="0 0 24 24"><path d="m12 3 9 5-9 5-9-5 9-5Zm-9 5v9l9 5 9-5V8m-9 5v9"/></symbol>
-<symbol id="i-home" viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-6v-7h-4v7H4a1 1 0 0 1-1-1z"/></symbol>
-<symbol id="i-heart" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21l7.8-7.5 1.1-1.1a5.5 5.5 0 0 0-.1-7.8Z"/></symbol>
-<symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M5 21a7 7 0 0 1 14 0"/></symbol>
+<!-- SVG ИКОНКИ -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none"
+fill="none" stroke="currentColor" stroke-width="1.8"
+stroke-linecap="round" stroke-linejoin="round">
+
+<symbol id="i-shield" viewBox="0 0 24 24">
+<path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11Z"/>
+<path d="m9 12 2 2 4-4"/>
+</symbol>
+
+<symbol id="i-search" viewBox="0 0 24 24">
+<circle cx="11" cy="11" r="7"/>
+<path d="m20 20-4-4"/>
+</symbol>
+
+<symbol id="i-star" viewBox="0 0 24 24">
+<path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-3-5.6 3 1.1-6.2L3 9.6l6.2-.9Z"/>
+</symbol>
+
+<symbol id="i-wallet" viewBox="0 0 24 24">
+<rect x="3" y="5" width="18" height="15" rx="2"/>
+<path d="M3 9h18m-5 6h.01"/>
+</symbol>
+
+<symbol id="i-package" viewBox="0 0 24 24">
+<path d="m12 3 9 5-9 5-9-5 9-5Zm-9 5v9l9 5 9-5V8m-9 5v9"/>
+</symbol>
+
+<symbol id="i-home" viewBox="0 0 24 24">
+<path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-6v-7h-4v7H4a1 1 0 0 1-1-1z"/>
+</symbol>
+
+<symbol id="i-heart" viewBox="0 0 24 24">
+<path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21l7.8-7.5 1.1-1.1a5.5 5.5 0 0 0-.1-7.8Z"/>
+</symbol>
+
+<symbol id="i-user" viewBox="0 0 24 24">
+<circle cx="12" cy="8" r="4"/>
+<path d="M5 21a7 7 0 0 1 14 0"/>
+</symbol>
 </svg>
 
+<!-- ШАПКА -->
 <header class="topbar">
 <div class="wrap header">
+
   <a class="brand" href="#top">
-    <span class="brand-mark"><svg><use href="#i-shield"/></svg></span>
+    <span class="brand-mark">
+      <svg class="icon"><use href="#i-shield"/></svg>
+    </span>
     <span class="brand-name">Nex<span>Pay</span></span>
   </a>
 
   <label class="search">
-    <svg><use href="#i-search"/></svg>
+    <svg class="icon"><use href="#i-search"/></svg>
     <input id="searchInput" type="search" placeholder="Поиск игр или товара">
   </label>
 
   <nav class="header-links">
-    <button class="text-link" onclick="document.getElementById('games').scrollIntoView()">Каталог</button>
-    <button class="text-link" onclick="document.getElementById('features').scrollIntoView()">Помощь</button>
-    <button class="btn btn-primary" onclick="alert('Создание объявления подключим к API.')">Продать</button>
+    <button class="text-link" onclick="scrollToSection('games')">Каталог</button>
+    <button class="text-link" onclick="scrollToSection('features')">Помощь</button>
+    <button class="btn btn-primary" onclick="showNotice('Создание объявлений подключим к API.')">Продать</button>
   </nav>
+
 </div>
 </header>
 
 <main id="top" class="wrap">
 
+<!-- БАННЕР -->
 <section class="hero">
   <div class="hero-copy">
     <div class="eyebrow">Выгодно и безопасно</div>
     <h1>Покупайте и продавайте<br>с уверенностью</h1>
     <p>Игровые товары, валюта, аккаунты и цифровые услуги. Удобный маркетплейс для геймеров.</p>
-    <button class="btn btn-primary" onclick="document.getElementById('offers').scrollIntoView({behavior:'smooth'})">Открыть каталог</button>
+    <button class="btn btn-primary" onclick="scrollToSection('offers')">
+      Открыть каталог
+    </button>
   </div>
+
   <div class="hero-visual">
-    <div class="hero-emblem"><svg><use href="#i-shield"/></svg></div>
+    <div class="hero-emblem">
+      <svg><use href="#i-shield"/></svg>
+    </div>
   </div>
 </section>
 
+<!-- КАТАЛОГ ИГР -->
 <section class="section" id="games">
+
   <div class="section-head">
     <h2>Игры и платформы</h2>
-    <button class="section-link" onclick="document.getElementById('searchInput').focus()">Все игры →</button>
+    <button class="section-link" onclick="clearSearch()">Сбросить поиск</button>
   </div>
 
-  <div class="games">
+  <div class="games" id="gamesList">
+
+    <button class="game" data-search="call of duty cod">
+      <div class="game-image">
+        <img src="assets/games/call-of-duty.png" alt="Call of Duty">
+        <span class="game-fallback">C</span>
+      </div>
+      <strong>Call of Duty</strong>
+    </button>
 
     <button class="game" data-search="roblox">
       <div class="game-image">
         <img src="assets/games/roblox.png" alt="Roblox">
-        <span class="fallback" hidden>R</span>
+        <span class="game-fallback">R</span>
       </div>
       <strong>Roblox</strong>
-      <small>Игровые товары</small>
     </button>
 
-    <button class="game" data-search="steam">
+    <button class="game" data-search="claude">
       <div class="game-image">
-        <img src="assets/games/steam.png" alt="Steam">
-        <span class="fallback" hidden>S</span>
+        <img src="assets/games/claude.png" alt="Claude">
+        <span class="game-fallback">C</span>
       </div>
-      <strong>Steam</strong>
-      <small>Игровые товары</small>
+      <strong>Claude</strong>
     </button>
 
-    <button class="game" data-search="minecraft">
+    <button class="game" data-search="chatgpt чатгпт">
       <div class="game-image">
-        <img src="assets/games/minecraft.png" alt="Minecraft">
-        <span class="fallback" hidden>M</span>
+        <img src="assets/games/chatgpt.png" alt="ChatGPT">
+        <span class="game-fallback">G</span>
       </div>
-      <strong>Minecraft</strong>
-      <small>Игровые товары</small>
+      <strong>ChatGPT</strong>
     </button>
 
-    <button class="game" data-search="telegram">
+    <button class="game" data-search="pubg pubg mobile">
       <div class="game-image">
-        <img src="assets/games/telegram.png" alt="Telegram">
-        <span class="fallback" hidden>T</span>
+        <img src="assets/games/pubg.png" alt="PUBG Mobile">
+        <span class="game-fallback">P</span>
       </div>
-      <strong>Telegram</strong>
-      <small>Stars, Premium, Gifts</small>
+      <strong>PUBG Mobile</strong>
     </button>
 
-    <button class="game" data-search="pubg">
+    <button class="game" data-search="apple">
       <div class="game-image">
-        <img src="assets/games/pubg.png" alt="PUBG">
-        <span class="fallback" hidden>P</span>
+        <img src="assets/games/apple.png" alt="Apple">
+        <span class="game-fallback">A</span>
       </div>
-      <strong>PUBG</strong>
-      <small>Игровые товары</small>
+      <strong>Apple</strong>
     </button>
 
-    <button class="game" data-search="brawl stars">
-      <div class="game-image">
-        <img src="assets/games/brawl-stars.png" alt="Brawl Stars">
-        <span class="fallback" hidden>B</span>
-      </div>
-      <strong>Brawl Stars</strong>
-      <small>Игровые товары</small>
-    </button>
-
-    <button class="game" data-search="discord">
-      <div class="game-image">
-        <img src="assets/games/discord.png" alt="Discord">
-        <span class="fallback" hidden>D</span>
-      </div>
-      <strong>Discord</strong>
-      <small>Подписки и услуги</small>
-    </button>
-
-    <button class="game" data-search="playstation">
+    <button class="game" data-search="playstation ps">
       <div class="game-image">
         <img src="assets/games/playstation.png" alt="PlayStation">
-        <span class="fallback" hidden>P</span>
+        <span class="game-fallback">P</span>
       </div>
       <strong>PlayStation</strong>
-      <small>Игровые товары</small>
+    </button>
+
+    <button class="game" data-search="telegram stars premium gifts">
+      <div class="game-image">
+        <img src="assets/games/telegram.png" alt="Telegram">
+        <span class="game-fallback">T</span>
+      </div>
+      <strong>Telegram</strong>
     </button>
 
     <button class="game" data-search="fortnite">
       <div class="game-image">
         <img src="assets/games/fortnite.png" alt="Fortnite">
-        <span class="fallback" hidden>F</span>
+        <span class="game-fallback">F</span>
       </div>
       <strong>Fortnite</strong>
-      <small>Игровые товары</small>
     </button>
 
-    <button class="game" data-search="genshin impact">
+    <button class="game" data-search="brawl stars">
+      <div class="game-image">
+        <img src="assets/games/brawl-stars.png" alt="Brawl Stars">
+        <span class="game-fallback">B</span>
+      </div>
+      <strong>Brawl Stars</strong>
+    </button>
+
+    <button class="game" data-search="tiktok">
+      <div class="game-image">
+        <img src="assets/games/tiktok.png" alt="TikTok">
+        <span class="game-fallback">T</span>
+      </div>
+      <strong>TikTok</strong>
+    </button>
+
+    <button class="game" data-search="standoff 2">
+      <div class="game-image">
+        <img src="assets/games/standoff-2.png" alt="Standoff 2">
+        <span class="game-fallback">S</span>
+      </div>
+      <strong>Standoff 2</strong>
+    </button>
+
+    <button class="game" data-search="steam">
+      <div class="game-image">
+        <img src="assets/games/steam.png" alt="Steam">
+        <span class="game-fallback">S</span>
+      </div>
+      <strong>Steam</strong>
+    </button>
+
+    <button class="game" data-search="ea sports fc fifa">
+      <div class="game-image">
+        <img src="assets/games/ea-sports.png" alt="EA Sports">
+        <span class="game-fallback">EA</span>
+      </div>
+      <strong>EA SPORTS</strong>
+    </button>
+
+    <button class="game" data-search="genshin impact hoyoverse">
       <div class="game-image">
         <img src="assets/games/genshin-impact.png" alt="Genshin Impact">
-        <span class="fallback" hidden>G</span>
+        <span class="game-fallback">G</span>
       </div>
       <strong>Genshin Impact</strong>
-      <small>Игровые товары</small>
     </button>
 
-    <button class="game" data-search="valorant">
-      <div class="game-image"><span class="fallback">V</span></div>
-      <strong>VALORANT</strong>
-      <small>Игровые товары</small>
-    </button>
-
-    <button class="game" data-search="counter strike">
-      <div class="game-image"><span class="fallback">CS</span></div>
-      <strong>Counter-Strike</strong>
-      <small>Игровые товары</small>
+    <button class="game" data-search="minecraft">
+      <div class="game-image">
+        <img src="assets/games/minecraft.png" alt="Minecraft">
+        <span class="game-fallback">M</span>
+      </div>
+      <strong>Minecraft</strong>
     </button>
 
   </div>
 </section>
 
+<!-- ОБЪЯВЛЕНИЯ -->
 <section class="section" id="offers">
+
   <div class="section-head">
-    <h2>Новые предложения</h2>
-    <button class="section-link" onclick="document.getElementById('searchInput').focus()">Смотреть все →</button>
+    <h2>Все объявления</h2>
+    <button class="section-link" onclick="shuffleListings()">Перемешать</button>
   </div>
-  <div class="products">
-    <div class="empty">
+
+  <div class="listing-tools">
+    <button class="filter-btn active" data-filter="all">Все</button>
+    <button class="filter-btn" data-filter="new">Новые</button>
+    <button class="filter-btn" data-filter="cheap">Сначала дешевле</button>
+    <button class="filter-btn" data-filter="expensive">Сначала дороже</button>
+  </div>
+
+  <div class="products" id="productsList">
+    <div class="empty" id="emptyState">
       <svg><use href="#i-package"/></svg>
-      <strong>Пока нет опубликованных товаров</strong>
-      <p>Здесь появятся предложения продавцов после подключения каталога.</p>
+      <strong>Пока нет объявлений</strong>
+      Здесь будут отображаться товары всех продавцов.
     </div>
   </div>
+
 </section>
 
+<!-- ПРЕИМУЩЕСТВА -->
 <section class="features" id="features">
+
   <article class="feature">
-    <div class="feature-icon"><svg><use href="#i-shield"/></svg></div>
+    <div class="feature-icon">
+      <svg><use href="#i-shield"/></svg>
+    </div>
     <strong>Безопасная сделка</strong>
     <p>Понятный процесс оформления заказа для покупателя и продавца.</p>
   </article>
 
   <article class="feature">
-    <div class="feature-icon"><svg><use href="#i-star"/></svg></div>
+    <div class="feature-icon">
+      <svg><use href="#i-star"/></svg>
+    </div>
     <strong>Рейтинг и отзывы</strong>
     <p>Оценивайте завершённые сделки и выбирайте продавцов по отзывам.</p>
   </article>
 
   <article class="feature">
-    <div class="feature-icon"><svg><use href="#i-wallet"/></svg></div>
+    <div class="feature-icon">
+      <svg><use href="#i-wallet"/></svg>
+    </div>
     <strong>Понятные условия</strong>
     <p>Стоимость и комиссия будут отображаться до подтверждения заказа.</p>
   </article>
+
 </section>
 
+<!-- ПОДВАЛ -->
 <footer class="footer">
+
   <div>
     <div class="footer-brand">NexPay</div>
     <p>Маркетплейс игровых товаров и цифровых услуг.</p>
   </div>
+
   <div class="footer-links">
     <div>
       <strong>Площадка</strong>
       <a href="#games">Каталог</a>
-      <a href="#offers">Предложения</a>
+      <a href="#offers">Объявления</a>
       <a href="#features">Правила</a>
     </div>
+
     <div>
       <strong>Помощь</strong>
       <a href="#features">Поддержка</a>
@@ -664,52 +1034,271 @@ svg{display:block}
       <a href="#features">Контакты</a>
     </div>
   </div>
-</footer>
 
+</footer>
 </main>
 
+<!-- МОБИЛЬНОЕ МЕНЮ -->
 <nav class="mobile-nav">
-  <button class="active" onclick="scrollTo({top:0,behavior:'smooth'})"><svg><use href="#i-home"/></svg>Главная</button>
-  <button onclick="document.getElementById('games').scrollIntoView({behavior:'smooth'})"><svg><use href="#i-search"/></svg>Каталог</button>
-  <button onclick="alert('Создание объявления подключим к API.')"><svg><use href="#i-package"/></svg>Продать</button>
-  <button onclick="alert('Избранное появится после подключения профиля.')"><svg><use href="#i-heart"/></svg>Избранное</button>
-  <button onclick="alert('Профиль будет подключён через Telegram.')"><svg><use href="#i-user"/></svg>Профиль</button>
+
+  <button class="active" onclick="scrollToSection('top')">
+    <svg><use href="#i-home"/></svg>
+    Главная
+  </button>
+
+  <button onclick="scrollToSection('games')">
+    <svg><use href="#i-search"/></svg>
+    Каталог
+  </button>
+
+  <button onclick="showNotice('Создание объявлений подключим к API.')">
+    <svg><use href="#i-package"/></svg>
+    Продать
+  </button>
+
+  <button onclick="showNotice('Избранное появится после подключения профиля.')">
+    <svg><use href="#i-heart"/></svg>
+    Избранное
+  </button>
+
+  <button onclick="showNotice('Профиль будет подключён через Telegram.')">
+    <svg><use href="#i-user"/></svg>
+    Профиль
+  </button>
+
 </nav>
 
 <script>
+/* TELEGRAM MINI APP */
+
 const tg = window.Telegram?.WebApp;
 
 if (tg) {
   tg.ready();
   tg.expand();
 
-  const user = tg.initDataUnsafe?.user;
+  const telegramUser = tg.initDataUnsafe?.user;
 
-  if (user) {
-    console.log("NexPay user:", user.id);
+  if (telegramUser) {
+    console.log("NexPay Telegram ID:", telegramUser.id);
   }
 }
 
-// Резервные буквы, если изображение не найдено
-document.querySelectorAll(".game-image img").forEach(img => {
-  img.addEventListener("error", () => {
+/* НАВИГАЦИЯ */
+
+function scrollToSection(id) {
+  const element = document.getElementById(id);
+
+  if (element) {
+    element.scrollIntoView({ behavior: "smooth" });
+  }
+}
+
+function showNotice(message) {
+  if (tg && typeof tg.showAlert === "function") {
+    tg.showAlert(message);
+  } else {
+    alert(message);
+  }
+}
+
+/* ЗАПАСНЫЕ ИКОНКИ */
+
+document.querySelectorAll(".game-image img").forEach((img) => {
+  const fallback = img.nextElementSibling;
+
+  function showFallback() {
     img.style.display = "none";
-    const fallback = img.nextElementSibling;
-    if (fallback) fallback.hidden = false;
-  });
+
+    if (fallback) {
+      fallback.style.display = "block";
+    }
+  }
+
+  img.addEventListener("error", showFallback);
+
+  if (img.complete && img.naturalWidth === 0) {
+    showFallback();
+  }
 });
 
-// Поиск по играм
+/* ПОИСК ПО ИГРАМ */
+
 const searchInput = document.getElementById("searchInput");
 
 searchInput.addEventListener("input", () => {
   const query = searchInput.value.trim().toLowerCase();
 
-  document.querySelectorAll(".game").forEach(card => {
-    const name = card.dataset.search || "";
-    card.style.display = name.includes(query) ? "" : "none";
+  document.querySelectorAll(".game").forEach((game) => {
+    const searchableText = (
+      game.dataset.search + " " + game.innerText
+    ).toLowerCase();
+
+    game.style.display = searchableText.includes(query) ? "" : "none";
   });
 });
+
+function clearSearch() {
+  searchInput.value = "";
+
+  document.querySelectorAll(".game").forEach((game) => {
+    game.style.display = "";
+  });
+}
+
+/* ОБЪЯВЛЕНИЯ */
+
+/*
+  Пока backend не подключён, массив пустой.
+  Позже сюда будут поступать товары из API.
+
+  Формат одного объявления:
+  {
+    id: 1,
+    title: "Название товара",
+    category: "Roblox",
+    price: 150,
+    seller: "Продавец",
+    image: "ссылка-на-изображение",
+    createdAt: 123456789
+  }
+*/
+
+let listings = [];
+
+let currentFilter = "all";
+
+const productsList = document.getElementById("productsList");
+
+function shuffleArray(array) {
+  const result = [...array];
+
+  for (let i = result.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+
+    [result[i], result[j]] = [result[j], result[i]];
+  }
+
+  return result;
+}
+
+function shuffleListings() {
+  listings = shuffleArray(listings);
+  renderListings();
+}
+
+function renderListings() {
+  productsList.innerHTML = "";
+
+  let visibleListings = [...listings];
+
+  if (currentFilter === "cheap") {
+    visibleListings.sort((a, b) => a.price - b.price);
+  }
+
+  if (currentFilter === "expensive") {
+    visibleListings.sort((a, b) => b.price - a.price);
+  }
+
+  if (currentFilter === "new") {
+    visibleListings.sort((a, b) => b.createdAt - a.createdAt);
+  }
+
+  if (visibleListings.length === 0) {
+    const empty = document.createElement("div");
+
+    empty.className = "empty";
+    empty.innerHTML = `
+      <svg><use href="#i-package"/></svg>
+      <strong>Пока нет объявлений</strong>
+      Здесь будут отображаться товары всех продавцов.
+    `;
+
+    productsList.appendChild(empty);
+    return;
+  }
+
+  visibleListings.forEach((item) => {
+    const card = document.createElement("article");
+
+    card.className = "product";
+
+    const image = document.createElement("div");
+    image.className = "product-image";
+
+    if (item.image) {
+      const img = document.createElement("img");
+      img.src = item.image;
+      img.alt = item.title;
+      img.loading = "lazy";
+
+      img.addEventListener("error", () => {
+        img.remove();
+      });
+
+      image.appendChild(img);
+    } else {
+      image.innerHTML = '<svg><use href="#i-package"/></svg>';
+    }
+
+    const info = document.createElement("div");
+    info.className = "product-info";
+
+    const category = document.createElement("div");
+    category.className = "product-category";
+    category.textContent = item.category || "Товар";
+
+    const title = document.createElement("div");
+    title.className = "product-title";
+    title.textContent = item.title || "Без названия";
+
+    const bottom = document.createElement("div");
+    bottom.className = "product-bottom";
+
+    const seller = document.createElement("div");
+    seller.className = "seller";
+
+    const dot = document.createElement("span");
+    dot.className = "seller-dot";
+
+    const sellerName = document.createElement("span");
+    sellerName.className = "seller-name";
+    sellerName.textContent = item.seller || "Продавец";
+
+    seller.append(dot, sellerName);
+
+    const price = document.createElement("span");
+    price.className = "price";
+    price.textContent = Number(item.price).toLocaleString("ru-RU") + " ₽";
+
+    bottom.append(seller, price);
+    info.append(category, title, bottom);
+    card.append(image, info);
+
+    productsList.appendChild(card);
+  });
+}
+
+/* ФИЛЬТРЫ */
+
+document.querySelectorAll(".filter-btn").forEach((button) => {
+  button.addEventListener("click", () => {
+    document.querySelectorAll(".filter-btn").forEach((item) => {
+      item.classList.remove("active");
+    });
+
+    button.classList.add("active");
+    currentFilter = button.dataset.filter;
+
+    renderListings();
+  });
+});
+
+/* ПЕРВОНАЧАЛЬНЫЙ РЕНДЕР */
+
+listings = shuffleArray(listings);
+renderListings();
+
 </script>
 
 </body>
