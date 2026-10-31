@@ -28,7 +28,7 @@ html[data-theme="dark"] {
   --surface: #131f33;
   --header: #111d31;
   --text: #edf3ff;
-  --muted: #aab8ce;
+  --muted: #9baac2;
   --line: #263650;
   --blue: #4b86ff;
   --blue-hover: #6a9aff;
@@ -168,15 +168,11 @@ html[data-theme="dark"] .theme-switch {
 .header-action svg {
   width: 22px;
   height: 22px;
-  color: var(--muted);
-  transition: color .18s ease;
+  color: var(--blue);
 }
 .header-action:hover {
   background: var(--soft-blue);
-  color: var(--text);
-}
-.header-action:hover svg {
-  color: var(--text);
+  color: var(--blue);
 }
 .btn {
   border: 0;
@@ -428,51 +424,24 @@ html[data-theme="dark"] .theme-switch {
   overflow: hidden;
 }
 .seller-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.seller-dot {
-  width: 18px;
-  height: 18px;
-  flex-shrink: 0;
-  border-radius: 50%;
-  background: var(--soft-blue);
-}
+.seller-dot { width: 18px; height: 18px; flex-shrink: 0; border-radius: 50%; background: var(--soft-blue); }
 .price { font-size: 14px; font-weight: 850; white-space: nowrap; }
-
-/* IMPROVED EMPTY STATE */
 .empty {
   grid-column: 1 / -1;
-  min-height: 190px;
-  padding: 28px 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  padding: 38px 16px;
   text-align: center;
   background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: 16px;
+  border: 1px dashed var(--line);
+  border-radius: 15px;
   color: var(--muted);
   font-size: 13px;
   line-height: 1.6;
 }
-.empty-icon {
-  width: 48px;
-  height: 48px;
-  margin-bottom: 13px;
-  display: grid;
-  place-items: center;
-  border-radius: 14px;
-  background: var(--soft-blue);
-  color: var(--muted);
-}
-.empty-icon svg { width: 24px; height: 24px; }
 .empty strong {
   display: block;
   color: var(--text);
-  font-size: 15px;
+  font-size: 14px;
   margin-bottom: 5px;
-}
-.empty span {
-  max-width: 360px;
 }
 
 /* FEATURES */
@@ -480,10 +449,10 @@ html[data-theme="dark"] .theme-switch {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 14px;
-  margin-top: 24px;
+  margin-top: 35px;
 }
 .feature {
-  padding: 19px;
+  padding: 21px;
   border: 1px solid var(--line);
   border-radius: 16px;
   background: var(--surface);
@@ -496,7 +465,7 @@ html[data-theme="dark"] .theme-switch {
   color: var(--blue);
   display: grid;
   place-items: center;
-  margin-bottom: 12px;
+  margin-bottom: 13px;
 }
 .feature-icon svg { width: 20px; height: 20px; }
 .feature strong { font-size: 14px; }
@@ -509,8 +478,8 @@ html[data-theme="dark"] .theme-switch {
 
 /* FOOTER */
 .footer {
-  margin-top: 28px;
-  padding: 22px 0 28px;
+  margin-top: 45px;
+  padding: 26px 0 34px;
   border-top: 1px solid var(--line);
   display: flex;
   justify-content: space-between;
@@ -523,7 +492,6 @@ html[data-theme="dark"] .theme-switch {
 .footer-links { display: flex; gap: 44px; }
 .footer-links strong { display: block; color: var(--text); margin-bottom: 10px; }
 .footer-links a { display: block; margin: 7px 0; }
-.footer-links a:hover { color: var(--blue); }
 .mobile-nav { display: none; }
 
 /* AUTH */
@@ -665,8 +633,7 @@ html[data-theme="dark"] .theme-switch {
   .product-title { font-size: 11px; min-height: 31px; }
   .price { font-size: 12px; }
   .seller { font-size: 9px; }
-  .empty { min-height: 165px; padding: 24px 14px; }
-  .features { grid-template-columns: 1fr; gap: 9px; margin-top: 20px; }
+  .features { grid-template-columns: 1fr; gap: 9px; margin-top: 27px; }
   .feature {
     padding: 15px;
     display: grid;
@@ -677,8 +644,8 @@ html[data-theme="dark"] .theme-switch {
   .feature-icon { grid-row: span 2; margin: 0; }
   .feature strong { font-size: 13px; }
   .feature p { margin-top: 4px; font-size: 11px; }
-  .footer { margin-top: 22px; padding-bottom: 100px; display: block; }
-  .footer-links { margin-top: 18px; gap: 35px; }
+  .footer { margin-top: 30px; padding-bottom: 100px; display: block; }
+  .footer-links { margin-top: 20px; gap: 45px; }
 
   .mobile-nav {
     position: fixed;
@@ -715,6 +682,56 @@ html[data-theme="dark"] .theme-switch {
   .game-image { width: 61px; height: 61px; }
   .product-image { height: 90px; }
 }
+
+
+/* NexPay polish: consistent header icons and compact lower section */
+.header-action,
+.header-action svg {
+  color: var(--muted);
+}
+.header-action svg {
+  stroke: currentColor;
+}
+.header-action:hover,
+.header-action:hover svg,
+.header-action:focus-visible,
+.header-action:focus-visible svg {
+  color: var(--text);
+}
+.header-action:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+}
+
+#offers {
+  margin-bottom: 0;
+}
+#offers .empty {
+  padding: 24px 16px;
+  min-height: 0;
+}
+#features {
+  margin-top: 22px;
+}
+.footer {
+  margin-top: 24px;
+  padding-top: 20px;
+  padding-bottom: 24px;
+}
+@media (max-width: 620px) {
+  #features {
+    margin-top: 18px;
+    gap: 10px;
+  }
+  .feature { padding: 15px; }
+  .footer {
+    margin-top: 20px;
+    padding-top: 18px;
+    padding-bottom: 20px;
+    gap: 16px;
+  }
+}
+
 </style>
 </head>
 
@@ -1161,18 +1178,11 @@ function renderListings() {
   if (visible.length === 0) {
     const empty = document.createElement("div");
     empty.className = "empty";
-
-    const icon = document.createElement("div");
-    icon.className = "empty-icon";
-    icon.innerHTML = '<svg><use href="#i-package"></use></svg>';
-
     const title = document.createElement("strong");
     title.textContent = "Пока нет объявлений";
-
     const desc = document.createElement("span");
-    desc.textContent = "Новые предложения появятся здесь. Загляните позже или выберите интересующую игру в каталоге.";
-
-    empty.append(icon, title, desc);
+    desc.textContent = "Здесь будут отображаться товары продавцов.";
+    empty.append(title, desc);
     productsList.appendChild(empty);
     return;
   }
