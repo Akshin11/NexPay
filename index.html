@@ -875,6 +875,57 @@ html[data-theme="dark"] .theme-switch {
     gap: 22px;
   }
 }
+/* Серые кнопки сверху на компьютерах */
+.header-action,
+.header-action:visited {
+  background: #e5e7eb;
+  color: #374151;
+}
+
+.header-action svg {
+  color: #6b7280;
+}
+
+.header-action:hover,
+.header-action:focus,
+.header-action:active {
+  background: #d1d5db;
+  color: #374151;
+}
+
+.header-action:hover svg,
+.header-action:focus svg,
+.header-action:active svg {
+  color: #4b5563;
+}
+
+/* Изменения только для телефонов */
+@media (max-width: 620px) {
+  /* Скрываем верхние кнопки */
+  .header-links {
+    display: none !important;
+  }
+
+  /* Нижние кнопки всегда залиты серым */
+  .mobile-nav button,
+  .mobile-nav button:hover,
+  .mobile-nav button:focus,
+  .mobile-nav button:focus-visible,
+  .mobile-nav button:active,
+  .mobile-nav button.active {
+    background: #e5e7eb !important;
+    color: #374151 !important;
+    border: 0 !important;
+    outline: 0 !important;
+    box-shadow: none !important;
+    border-radius: 10px;
+  }
+
+  .mobile-nav button svg {
+    color: #6b7280 !important;
+    stroke: currentColor;
+  }
+}
 </style>
 </head>
 
