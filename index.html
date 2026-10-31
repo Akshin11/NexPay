@@ -587,6 +587,38 @@ html[data-theme="dark"] .theme-switch {
     gap: 9px;
     padding-top: 10px;
     padding-bottom: 10px;
+      /* Верхние кнопки на телефонах — серые всегда */
+  .header-action,
+  .header-action:hover,
+  .header-action:focus,
+  .header-action:active {
+    background: #e5e7eb !important;
+    color: #374151 !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+  }
+
+  .header-action svg {
+    color: #6b7280 !important;
+  }
+
+  /* Нижняя панель на телефонах — серая всегда */
+  .mobile-nav button,
+  .mobile-nav button:hover,
+  .mobile-nav button:focus,
+  .mobile-nav button:active,
+  .mobile-nav button.active {
+    background: #e5e7eb !important;
+    color: #374151 !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+  }
+
+  .mobile-nav button svg {
+    color: #6b7280 !important;
+  }
   }
   .brand { font-size: 21px; gap: 6px; }
   .theme-switch { width: 48px; height: 28px; }
