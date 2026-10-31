@@ -20,6 +20,11 @@
   --blue-hover: #1555dc;
   --soft-blue: #eaf1ff;
   --shadow: 0 4px 18px #173c780b;
+
+  --search-bg: #f1f4f9;
+
+  /* Серые иконки и подписи: одинаковые в светлой и тёмной теме */
+  --icon-gray: #8b93a1;
 }
 
 html[data-theme="dark"] {
@@ -34,6 +39,7 @@ html[data-theme="dark"] {
   --blue-hover: #6a9aff;
   --soft-blue: #1c2d4a;
   --shadow: 0 4px 18px #00000020;
+  --search-bg: #1a2a44;
 }
 
 * { box-sizing: border-box; }
@@ -50,7 +56,14 @@ body {
 button, input { font: inherit; }
 button { cursor: pointer; }
 a { color: inherit; text-decoration: none; }
-svg { display: block; }
+svg {
+  display: block;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
 
 .wrap {
   width: 100%;
@@ -65,14 +78,24 @@ svg { display: block; }
   position: sticky;
   top: 0;
   z-index: 20;
-  background: var(--header);
-  border-bottom: 1px solid var(--line);
+  background: transparent;
+  border: 0;
+  padding: 10px 14px 0;
+}
+.topbar .wrap {
+  max-width: 1500px;
+  margin: 0 auto;
 }
 .header {
-  min-height: 78px;
+  min-height: 68px;
+  padding: 10px 16px;
   display: flex;
   align-items: center;
   gap: 22px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
 }
 .brand {
   display: flex;
@@ -150,6 +173,8 @@ html[data-theme="dark"] .theme-switch {
   gap: 8px;
   white-space: nowrap;
 }
+
+/* Серые иконки сверху (компьютеры и планшеты): без фона и обводки */
 .header-action {
   display: flex;
   flex-direction: column;
@@ -159,21 +184,30 @@ html[data-theme="dark"] .theme-switch {
   min-width: 66px;
   padding: 5px 8px;
   border: 0;
-  border-radius: 10px;
-  background: transparent;
-  color: var(--muted);
+  border-radius: 0;
+  background: none;
+  color: var(--icon-gray);
   font-size: 12px;
   font-weight: 700;
+  outline: 0;
+  box-shadow: none;
+  -webkit-tap-highlight-color: transparent;
 }
 .header-action svg {
   width: 22px;
   height: 22px;
-  color: var(--blue);
+  color: var(--icon-gray);
+  stroke: currentColor;
 }
-.header-action:hover {
-  background: var(--soft-blue);
-  color: var(--blue);
+.header-action:hover,
+.header-action:focus,
+.header-action:focus-visible,
+.header-action:active {
+  background: none;
+  color: var(--icon-gray);
+  outline: 0;
 }
+
 .btn {
   border: 0;
   border-radius: 10px;
@@ -205,6 +239,11 @@ html[data-theme="dark"] .theme-switch {
   overflow: hidden;
 }
 .promo-slide.active { display: block; }
+.promo-slide picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
 .promo-slide img {
   display: block;
   width: 100%;
@@ -346,12 +385,13 @@ html[data-theme="dark"] .theme-switch {
 .carousel-arrow[hidden] { display: none; }
 
 /* LISTINGS */
+#offers { margin-bottom: 0; }
 .listing-tools {
   display: flex;
   gap: 8px;
   overflow-x: auto;
   padding-bottom: 5px;
-  margin-bottom: 14px;
+  margin-bottom: 10px;
   scrollbar-width: none;
 }
 .listing-tools::-webkit-scrollbar { display: none; }
@@ -373,7 +413,7 @@ html[data-theme="dark"] .theme-switch {
 .products {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 13px;
+  gap: 11px;
 }
 .product {
   min-width: 0;
@@ -428,7 +468,7 @@ html[data-theme="dark"] .theme-switch {
 .price { font-size: 14px; font-weight: 850; white-space: nowrap; }
 .empty {
   grid-column: 1 / -1;
-  padding: 38px 16px;
+  padding: 22px 16px;
   text-align: center;
   background: var(--surface);
   border: 1px dashed var(--line);
@@ -448,11 +488,11 @@ html[data-theme="dark"] .theme-switch {
 .features {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 14px;
-  margin-top: 35px;
+  gap: 12px;
+  margin-top: 22px;
 }
 .feature {
-  padding: 21px;
+  padding: 17px;
   border: 1px solid var(--line);
   border-radius: 16px;
   background: var(--surface);
@@ -465,7 +505,7 @@ html[data-theme="dark"] .theme-switch {
   color: var(--blue);
   display: grid;
   place-items: center;
-  margin-bottom: 13px;
+  margin-bottom: 10px;
 }
 .feature-icon svg { width: 20px; height: 20px; }
 .feature strong { font-size: 14px; }
@@ -478,8 +518,8 @@ html[data-theme="dark"] .theme-switch {
 
 /* FOOTER */
 .footer {
-  margin-top: 45px;
-  padding: 26px 0 34px;
+  margin-top: 22px;
+  padding: 20px 0 24px;
   border-top: 1px solid var(--line);
   display: flex;
   justify-content: space-between;
@@ -489,7 +529,7 @@ html[data-theme="dark"] .theme-switch {
 }
 .footer-brand { font-weight: 850; color: var(--text); font-size: 17px; }
 .footer p { max-width: 290px; line-height: 1.5; }
-.footer-links { display: flex; gap: 44px; }
+.footer-links { display: flex; gap: 32px; }
 .footer-links strong { display: block; color: var(--text); margin-bottom: 10px; }
 .footer-links a { display: block; margin: 7px 0; }
 .mobile-nav { display: none; }
@@ -571,6 +611,7 @@ html[data-theme="dark"] .theme-switch {
 .auth-submit { width: 100%; margin-top: 18px; }
 .auth-note { margin-top: 12px; font-size: 11px; color: var(--muted); line-height: 1.5; }
 
+/* ПЛАНШЕТЫ */
 @media (max-width: 950px) {
   .wrap { padding-left: 18px; padding-right: 18px; }
   .header { gap: 14px; }
@@ -578,59 +619,41 @@ html[data-theme="dark"] .theme-switch {
   .products { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 
+/* ТЕЛЕФОНЫ */
 @media (max-width: 620px) {
-  .wrap { padding-left: 12px; padding-right: 12px; }
+  .wrap { padding-left: 16px; padding-right: 16px; }
+
+  /* Шапка на телефоне: без рамки, логотип слева, переключатель темы справа, ниже поиск */
+  .topbar { position: static; padding: 14px 0 0; }
+  .topbar .wrap { max-width: none; }
   .header {
     min-height: auto;
     display: grid;
-    grid-template-columns: auto auto 1fr;
-    gap: 9px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-      /* Верхние кнопки на телефонах — серые всегда */
-  .header-action,
-  .header-action:hover,
-  .header-action:focus,
-  .header-action:active {
-    background: #e5e7eb !important;
-    color: #374151 !important;
-    border: none !important;
-    outline: none !important;
-    box-shadow: none !important;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 14px 10px;
+    padding: 0 16px;
+    border: 0;
+    border-radius: 0;
+    background: none;
+    box-shadow: none;
   }
-
-  .header-action svg {
-    color: #6b7280 !important;
-  }
-
-  /* Нижняя панель на телефонах — серая всегда */
-  .mobile-nav button,
-  .mobile-nav button:hover,
-  .mobile-nav button:focus,
-  .mobile-nav button:active,
-  .mobile-nav button.active {
-    background: #e5e7eb !important;
-    color: #374151 !important;
-    border: none !important;
-    outline: none !important;
-    box-shadow: none !important;
-  }
-
-  .mobile-nav button svg {
-    color: #6b7280 !important;
-  }
-  }
-  .brand { font-size: 21px; gap: 6px; }
-  .theme-switch { width: 48px; height: 28px; }
-  .theme-switch-thumb { width: 22px; height: 22px; }
+  .brand { font-size: 26px; gap: 6px; }
+  .theme-switch { width: 52px; height: 30px; }
+  .theme-switch-thumb { width: 24px; height: 24px; }
   .search {
     grid-column: 1 / -1;
     grid-row: 2;
-    height: 42px;
+    height: 46px;
   }
-  .header-links { justify-content: flex-end; gap: 1px; }
-  .header-action { min-width: 42px; padding: 4px 2px; font-size: 9px; }
-  .header-action svg { width: 18px; height: 18px; }
+  .search input {
+    border: 0;
+    border-radius: 16px;
+    background: var(--search-bg);
+  }
+
+  /* Верхние кнопки на телефонах скрыты — вместо них нижняя панель */
+  .header-links { display: none !important; }
 
   .promo-carousel {
     margin-top: 14px;
@@ -640,7 +663,6 @@ html[data-theme="dark"] .theme-switch {
     height: auto;
     width: 100%;
   }
-  .promo-slide img { object-fit: contain; object-position: center; }
   .promo-arrow { width: 30px; height: 30px; font-size: 20px; }
   .promo-prev { left: 5px; }
   .promo-next { right: 5px; }
@@ -665,9 +687,10 @@ html[data-theme="dark"] .theme-switch {
   .product-title { font-size: 11px; min-height: 31px; }
   .price { font-size: 12px; }
   .seller { font-size: 9px; }
-  .features { grid-template-columns: 1fr; gap: 9px; margin-top: 27px; }
+
+  .features { grid-template-columns: 1fr; gap: 9px; margin-top: 18px; }
   .feature {
-    padding: 15px;
+    padding: 12px;
     display: grid;
     grid-template-columns: 38px 1fr;
     column-gap: 11px;
@@ -676,36 +699,63 @@ html[data-theme="dark"] .theme-switch {
   .feature-icon { grid-row: span 2; margin: 0; }
   .feature strong { font-size: 13px; }
   .feature p { margin-top: 4px; font-size: 11px; }
-  .footer { margin-top: 30px; padding-bottom: 100px; display: block; }
-  .footer-links { margin-top: 20px; gap: 45px; }
 
+  .footer { margin-top: 16px; padding: 16px 0 110px; display: block; }
+  .footer-links { margin-top: 20px; gap: 22px; }
+
+  /* Нижняя панель: плавающий скруглённый фрейм, внутри всегда серые иконки */
   .mobile-nav {
     position: fixed;
     z-index: 30;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    left: 12px;
+    right: 12px;
+    bottom: max(12px, env(safe-area-inset-bottom));
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    padding: 9px 4px max(9px, env(safe-area-inset-bottom));
+    grid-auto-flow: column;
+    grid-auto-columns: 1fr;
+    padding: 11px 6px;
     background: var(--surface);
-    border-top: 1px solid var(--line);
+    background: color-mix(in srgb, var(--surface) 85%, transparent);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+    border: 1px solid var(--line);
+    border-radius: 28px;
+    box-shadow: 0 8px 30px #0000002e;
   }
-  .mobile-nav button {
-    border: 0;
-    background: none;
-    color: var(--muted);
+  .mobile-nav button,
+  .mobile-nav button:hover,
+  .mobile-nav button:focus,
+  .mobile-nav button:focus-visible,
+  .mobile-nav button:active,
+  .mobile-nav button.active {
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: none !important;
+    color: var(--icon-gray) !important;
+    opacity: 1 !important;
+    padding: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 4px;
-    font-size: 9px;
+    gap: 5px;
+    font-size: 10px;
+    outline: 0 !important;
+    box-shadow: none !important;
+    -webkit-tap-highlight-color: transparent;
   }
-  .mobile-nav svg { width: 20px; height: 20px; }
-  .mobile-nav button.active { color: var(--blue); }
+  .mobile-nav button svg,
+  .mobile-nav button:hover svg,
+  .mobile-nav button:active svg,
+  .mobile-nav button.active svg {
+    width: 22px;
+    height: 22px;
+    color: var(--icon-gray) !important;
+    stroke: currentColor;
+  }
 
   .auth-modal { padding: 24px 20px; }
 }
+
 @media (max-width: 360px) {
   .wrap { padding-left: 9px; padding-right: 9px; }
   .brand { font-size: 19px; }
@@ -713,218 +763,6 @@ html[data-theme="dark"] .theme-switch {
   .game { flex-basis: 68px; width: 68px; }
   .game-image { width: 61px; height: 61px; }
   .product-image { height: 90px; }
-}
-
-
-/* NexPay polish: consistent header icons and compact lower section */
-.header-action,
-.header-action svg {
-  color: var(--muted);
-}
-.header-action svg {
-  stroke: currentColor;
-}
-.header-action:hover,
-.header-action:hover svg,
-.header-action:focus-visible,
-.header-action:focus-visible svg {
-  color: var(--text);
-}
-.header-action:focus-visible {
-  outline: 2px solid var(--blue);
-  outline-offset: 2px;
-}
-
-#offers {
-  margin-bottom: 0;
-}
-#offers .empty {
-  padding: 24px 16px;
-  min-height: 0;
-}
-#features {
-  margin-top: 22px;
-}
-.footer {
-  margin-top: 24px;
-  padding-top: 20px;
-  padding-bottom: 24px;
-}
-@media (max-width: 620px) {
-  #features {
-    margin-top: 18px;
-    gap: 10px;
-  }
-  .feature { padding: 15px; }
-  .footer {
-    margin-top: 20px;
-    padding-top: 18px;
-    padding-bottom: 20px;
-    gap: 16px;
-  }
-}
-/* === NexPay visual fixes === */
-/* Compact floating header frame */
-.topbar {
-  background: transparent;
-  border: 0;
-  padding: 10px 14px 0;
-}
-.topbar .wrap {
-  max-width: 1500px;
-  padding-left: 0;
-  padding-right: 0;
-}
-.header {
-  min-height: 68px;
-  padding: 10px 16px;
-  border: 1px solid var(--line);
-  border-radius: 18px;
-  background: var(--surface);
-  box-shadow: var(--shadow);
-}
-
-/* Gray, theme-aware header icons and labels */
-.header-action,
-.header-action svg,
-.mobile-nav button,
-.mobile-nav svg {
-  color: var(--muted);
-}
-.header-action svg {
-  stroke: currentColor;
-}
-.header-action:hover,
-.header-action:hover svg,
-.mobile-nav button:hover {
-  color: var(--text);
-}
-.header-action:hover {
-  background: var(--bg);
-}
-.header-action:focus-visible,
-.mobile-nav button:focus-visible {
-  outline: 2px solid var(--blue);
-  outline-offset: 2px;
-}
-
-/* Tighten the area below the listings */
-#offers {
-  margin-bottom: 0;
-}
-#offers .listing-tools {
-  margin-bottom: 10px;
-}
-#offers .products {
-  gap: 11px;
-}
-#offers .empty {
-  padding: 22px 16px;
-}
-.features {
-  margin-top: 20px;
-  gap: 12px;
-}
-.feature {
-  padding: 17px;
-}
-.feature-icon {
-  margin-bottom: 10px;
-}
-.footer {
-  margin-top: 22px;
-  padding: 20px 0 24px;
-}
-.footer-links {
-  gap: 32px;
-}
-
-@media (max-width: 620px) {
-  .topbar {
-    padding: 8px 8px 0;
-  }
-  .topbar .wrap {
-    padding-left: 0;
-    padding-right: 0;
-  }
-  .header {
-    min-height: auto;
-    padding: 9px 10px;
-    border-radius: 15px;
-    gap: 8px;
-  }
-  .header-action,
-  .header-action svg {
-    color: var(--muted);
-  }
-  .features {
-    margin-top: 16px;
-    gap: 8px;
-  }
-  .feature {
-    padding: 12px;
-  }
-  .feature-icon {
-    margin-bottom: 0;
-  }
-  .footer {
-    margin-top: 16px;
-    padding: 16px 0 76px;
-  }
-  .footer-links {
-    gap: 22px;
-  }
-}
-/* Серые кнопки сверху на компьютерах */
-.header-action,
-.header-action:visited {
-  background: #e5e7eb;
-  color: #374151;
-}
-
-.header-action svg {
-  color: #6b7280;
-}
-
-.header-action:hover,
-.header-action:focus,
-.header-action:active {
-  background: #d1d5db;
-  color: #374151;
-}
-
-.header-action:hover svg,
-.header-action:focus svg,
-.header-action:active svg {
-  color: #4b5563;
-}
-
-/* Изменения только для телефонов */
-@media (max-width: 620px) {
-  /* Скрываем верхние кнопки */
-  .header-links {
-    display: none !important;
-  }
-
-  /* Нижние кнопки всегда залиты серым */
-  .mobile-nav button,
-  .mobile-nav button:hover,
-  .mobile-nav button:focus,
-  .mobile-nav button:focus-visible,
-  .mobile-nav button:active,
-  .mobile-nav button.active {
-    background: #e5e7eb !important;
-    color: #374151 !important;
-    border: 0 !important;
-    outline: 0 !important;
-    box-shadow: none !important;
-    border-radius: 10px;
-  }
-
-  .mobile-nav button svg {
-    color: #6b7280 !important;
-    stroke: currentColor;
-  }
 }
 </style>
 </head>
@@ -968,6 +806,9 @@ stroke-linecap="round" stroke-linejoin="round">
   <circle cx="12" cy="12" r="4"/>
   <path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/>
 </symbol>
+<symbol id="i-plus" viewBox="0 0 24 24">
+  <path d="M12 5v14M5 12h14"/>
+</symbol>
 <symbol id="i-moon" viewBox="0 0 24 24">
   <path d="M20.9 13A9 9 0 0 1 11 3.1 9 9 0 1 0 20.9 13Z"/>
 </symbol>
@@ -991,11 +832,8 @@ stroke-linecap="round" stroke-linejoin="round">
     </label>
 
     <nav class="header-links">
-      <button class="header-action" onclick="scrollToSection('games')">
-        <svg><use href="#i-package"/></svg><span>Каталог</span>
-      </button>
       <button class="header-action" onclick="showNotice('Создание объявлений подключим к API.')">
-        <svg><use href="#i-wallet"/></svg><span>Продать</span>
+        <svg><use href="#i-plus"/></svg><span>Продать</span>
       </button>
       <button class="header-action" onclick="showNotice('Чаты подключим к API.')">
         <svg><use href="#i-messages"/></svg><span>Чаты</span>
@@ -1010,15 +848,8 @@ stroke-linecap="round" stroke-linejoin="round">
 <main id="top" class="wrap">
 
 <section class="promo-carousel" id="promoCarousel" aria-label="Баннеры NexPay">
-  <article class="promo-slide active">
-    <img src="assets/banners/banner-1.png" alt="Баннер NexPay 1" data-banner="banner-1">
-  </article>
-  <article class="promo-slide">
-    <img src="assets/banners/banner-2.png" alt="Баннер NexPay 2" data-banner="banner-2">
-  </article>
-  <article class="promo-slide">
-    <img src="assets/banners/banner-3.png" alt="Баннер NexPay 3" data-banner="banner-3">
-  </article>
+  <!-- Баннеры подставляются скриптом: assets/banners/desktop-1.png, desktop-2.png, ...
+       и mobile-1.png, mobile-2.png, ... -->
   <button class="promo-arrow promo-prev" id="promoPrev" aria-label="Предыдущий баннер">‹</button>
   <button class="promo-arrow promo-next" id="promoNext" aria-label="Следующий баннер">›</button>
   <div class="promo-controls"><div class="promo-dots" id="promoDots"></div></div>
@@ -1099,10 +930,9 @@ stroke-linecap="round" stroke-linejoin="round">
 </main>
 
 <nav class="mobile-nav">
-  <button class="active" onclick="scrollToSection('top')"><svg><use href="#i-home"/></svg>Главная</button>
-  <button onclick="scrollToSection('games')"><svg><use href="#i-search"/></svg>Каталог</button>
-  <button onclick="showNotice('Создание объявлений подключим к API.')"><svg><use href="#i-package"/></svg>Продать</button>
-  <button onclick="showNotice('Избранное подключим к профилю.')"><svg><use href="#i-heart"/></svg>Избранное</button>
+  <button onclick="scrollToSection('top')"><svg><use href="#i-home"/></svg>Главная</button>
+  <button onclick="showNotice('Создание объявлений подключим к API.')"><svg><use href="#i-plus"/></svg>Продать</button>
+  <button onclick="showNotice('Чаты подключим к API.')"><svg><use href="#i-messages"/></svg>Чаты</button>
   <button onclick="openAuthModal()"><svg><use href="#i-user"/></svg>Войти</button>
 </nav>
 
@@ -1229,24 +1059,6 @@ themeSwitch.addEventListener("click", () => {
   applyTheme(nextTheme);
 });
 
-/* BANNER IMAGE EXTENSION FALLBACK */
-document.querySelectorAll("[data-banner]").forEach(img => {
-  const base = "assets/banners/" + img.dataset.banner;
-  const extensions = ["png", "jpg", "jpeg", "webp"];
-  let extensionIndex = 0;
-
-  img.addEventListener("error", () => {
-    extensionIndex++;
-    if (extensionIndex < extensions.length) {
-      img.src = base + "." + extensions[extensionIndex];
-    } else {
-      img.style.display = "none";
-    }
-  });
-
-  img.src = base + ".png";
-});
-
 /* GAME IMAGE FALLBACK */
 document.querySelectorAll(".game-image img").forEach(img => {
   const fallback = img.nextElementSibling;
@@ -1302,20 +1114,80 @@ function clearSearch() {
 }
 
 /* PROMO CAROUSEL */
-const promoSlides = [...document.querySelectorAll(".promo-slide")];
+const promoCarousel = document.getElementById("promoCarousel");
 const promoDots = document.getElementById("promoDots");
+const promoPrevBtn = document.getElementById("promoPrev");
+const promoNextBtn = document.getElementById("promoNext");
+let promoSlides = [];
+let dotButtons = [];
 let promoIndex = 0;
 let promoTimer = null;
 
-promoSlides.forEach((slide, index) => {
-  const dot = document.createElement("button");
-  dot.className = "promo-dot" + (index === 0 ? " active" : "");
-  dot.setAttribute("aria-label", "Баннер " + (index + 1));
-  dot.addEventListener("click", () => showPromo(index, true));
-  promoDots.appendChild(dot);
-});
+/* Проверяем, существует ли картинка */
+function imageExists(src) {
+  return new Promise(resolve => {
+    const img = new Image();
+    img.onload = () => resolve(true);
+    img.onerror = () => resolve(false);
+    img.src = src;
+  });
+}
 
-const dotButtons = [...promoDots.querySelectorAll(".promo-dot")];
+/* Ищем баннеры по порядку: desktop-1.png, desktop-2.png, ...
+   и mobile-1.png, mobile-2.png, ... Останавливаемся на первом отсутствующем desktop-N.png */
+async function loadBanners() {
+  const dir = "assets/banners/";
+  for (let n = 1; n <= 20; n++) {
+    const desktopSrc = dir + "desktop-" + n + ".png";
+    const mobileSrc = dir + "mobile-" + n + ".png";
+    if (!(await imageExists(desktopSrc))) break;
+    const hasMobile = await imageExists(mobileSrc);
+
+    const slide = document.createElement("article");
+    slide.className = "promo-slide";
+    const picture = document.createElement("picture");
+    if (hasMobile) {
+      const source = document.createElement("source");
+      source.media = "(max-width: 620px)";
+      source.srcset = mobileSrc;
+      picture.appendChild(source);
+    }
+    const img = document.createElement("img");
+    img.src = desktopSrc;
+    img.alt = "Баннер NexPay " + n;
+    picture.appendChild(img);
+    slide.appendChild(picture);
+    promoCarousel.insertBefore(slide, promoPrevBtn);
+  }
+  promoSlides = [...promoCarousel.querySelectorAll(".promo-slide")];
+  initPromo();
+}
+
+function initPromo() {
+  if (promoSlides.length === 0) {
+    promoCarousel.style.display = "none";
+    return;
+  }
+
+  promoSlides.forEach((slide, index) => {
+    const dot = document.createElement("button");
+    dot.className = "promo-dot";
+    dot.setAttribute("aria-label", "Баннер " + (index + 1));
+    dot.addEventListener("click", () => showPromo(index, true));
+    promoDots.appendChild(dot);
+  });
+  dotButtons = [...promoDots.querySelectorAll(".promo-dot")];
+
+  /* Если баннер один — стрелки и точки не нужны */
+  if (promoSlides.length <= 1) {
+    promoPrevBtn.hidden = true;
+    promoNextBtn.hidden = true;
+    promoDots.hidden = true;
+  }
+
+  showPromo(0);
+  startPromoTimer();
+}
 
 function showPromo(index, userAction = false) {
   promoIndex = (index + promoSlides.length) % promoSlides.length;
@@ -1329,18 +1201,18 @@ function prevPromo() { showPromo(promoIndex - 1, true); }
 
 function startPromoTimer() {
   clearInterval(promoTimer);
-  promoTimer = setInterval(() => nextPromo(false), 30000);
+  if (promoSlides.length > 1) promoTimer = setInterval(() => nextPromo(false), 30000);
 }
 
-document.getElementById("promoNext").addEventListener("click", () => nextPromo(true));
-document.getElementById("promoPrev").addEventListener("click", prevPromo);
+promoNextBtn.addEventListener("click", () => nextPromo(true));
+promoPrevBtn.addEventListener("click", prevPromo);
 
-const promoCarousel = document.getElementById("promoCarousel");
 promoCarousel.addEventListener("mouseenter", () => clearInterval(promoTimer));
 promoCarousel.addEventListener("mouseleave", startPromoTimer);
 promoCarousel.addEventListener("focusin", () => clearInterval(promoTimer));
 promoCarousel.addEventListener("focusout", startPromoTimer);
-startPromoTimer();
+
+loadBanners();
 
 /* LISTINGS */
 let listings = [];
