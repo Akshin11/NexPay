@@ -50,7 +50,7 @@ svg{display:block}
   width:100%;height:100%;object-fit:contain;
   object-position:center;padding:3px;display:block
 }
-.brand-name{color:#173a7a}
+.brand-name{color:#fff}
 .brand-name span{color:var(--blue)}
 .search{flex:1;min-width:80px;height:43px;position:relative}
 .search svg{
@@ -75,16 +75,24 @@ svg{display:block}
 .btn-primary{background:var(--blue)!important;color:white!important}
 .btn-primary:hover{background:var(--blue-dark)!important}
 
-/* IMAGE BANNERS */
+/* BANNERS */
 .promo-carousel{
   position:relative;margin-top:20px;border-radius:20px;overflow:hidden;
   background:#e8efff;border:1px solid #d9e5fb;
-  aspect-ratio:3.2/1;min-height:230px
+  width:100%;aspect-ratio:3.2/1;min-height:220px;
+  isolation:isolate
 }
-.promo-slide{display:none;position:absolute;inset:0;width:100%;height:100%}
+.promo-slide{
+  display:none;position:absolute;inset:0;
+  width:100%;height:100%;overflow:hidden
+}
 .promo-slide.active{display:block;animation:fadeIn .25s ease}
 @keyframes fadeIn{from{opacity:.65}to{opacity:1}}
-.promo-slide img{display:block;width:100%;height:100%;object-fit:cover}
+.promo-slide img{
+  display:block;width:100%;height:100%;
+  object-fit:cover;object-position:center
+}
+.promo-slide img.banner-contain{object-fit:contain}
 .promo-arrow{
   position:absolute;z-index:4;top:50%;transform:translateY(-50%);
   width:40px;height:40px;border:1px solid #ffffff90;border-radius:50%;
@@ -96,7 +104,7 @@ svg{display:block}
 .promo-next{right:14px}
 .promo-controls{
   position:absolute;z-index:5;bottom:12px;left:0;right:0;
-  display:flex;align-items:center;justify-content:center;gap:10px
+  display:flex;align-items:center;justify-content:center
 }
 .promo-dots{display:flex;gap:6px}
 .promo-dot{
@@ -104,10 +112,6 @@ svg{display:block}
   background:#ffffff90
 }
 .promo-dot.active{width:20px;background:white}
-.promo-pause{
-  width:25px;height:25px;border:0;border-radius:7px;
-  background:#10234a55;color:white;font-size:12px
-}
 
 /* SECTIONS */
 .section{margin-top:30px}
@@ -256,10 +260,22 @@ svg{display:block}
   .header-links .text-link{display:none}
   .header-links .btn{padding:10px 12px;font-size:12px}
   .search{grid-column:1/-1;grid-row:2;height:40px}
-  .promo-carousel{margin-top:14px;border-radius:16px;aspect-ratio:2/1;min-height:150px}
+
+  .promo-carousel{
+    margin-top:14px;border-radius:14px;
+    aspect-ratio:16/9;min-height:0;height:auto;
+    width:100%
+  }
+  .promo-slide img{
+    object-fit:contain;
+    object-position:center;
+    max-width:100%;
+  }
   .promo-arrow{width:30px;height:30px;font-size:20px}
   .promo-prev{left:5px}
   .promo-next{right:5px}
+  .promo-controls{bottom:8px}
+
   .section{margin-top:25px}
   .section-head h2{font-size:18px}
   .section-link{font-size:11px}
@@ -370,16 +386,15 @@ stroke-linecap="round" stroke-linejoin="round">
 
 <main id="top" class="wrap">
 
-<!-- BANNERS: add images to assets/banners/banner-1.png etc. -->
 <section class="promo-carousel" id="promoCarousel" aria-label="Баннеры NexPay">
   <article class="promo-slide active">
-    <img src="assets/banners/banner-1.png" alt="Баннер NexPay 1">
+    <img src="assets/banners/banner-1.png" alt="Баннер NexPay 1" data-banner="banner-1">
   </article>
   <article class="promo-slide">
-    <img src="assets/banners/banner-2.png" alt="Баннер NexPay 2">
+    <img src="assets/banners/banner-2.png" alt="Баннер NexPay 2" data-banner="banner-2">
   </article>
   <article class="promo-slide">
-    <img src="assets/banners/banner-3.png" alt="Баннер NexPay 3">
+    <img src="assets/banners/banner-3.png" alt="Баннер NexPay 3" data-banner="banner-3">
   </article>
 
   <button class="promo-arrow promo-prev" id="promoPrev" aria-label="Предыдущий баннер">‹</button>
@@ -387,11 +402,9 @@ stroke-linecap="round" stroke-linejoin="round">
 
   <div class="promo-controls">
     <div class="promo-dots" id="promoDots"></div>
-    <button class="promo-pause" id="promoPause" aria-label="Пауза">Ⅱ</button>
   </div>
 </section>
 
-<!-- GAME CATALOG -->
 <section class="section" id="games">
   <div class="section-head">
     <h2>Игры и платформы</h2>
@@ -472,7 +485,6 @@ stroke-linecap="round" stroke-linejoin="round">
   </div>
 </section>
 
-<!-- LISTINGS -->
 <section class="section" id="offers">
   <div class="section-head">
     <h2>Все объявления</h2>
@@ -489,7 +501,6 @@ stroke-linecap="round" stroke-linejoin="round">
   <div class="products" id="productsList"></div>
 </section>
 
-<!-- FEATURES -->
 <section class="features" id="features">
   <article class="feature">
     <div class="feature-icon"><svg><use href="#i-shield"/></svg></div>
@@ -546,11 +557,28 @@ if(tg){tg.ready();tg.expand();}
 function scrollToSection(id){
   document.getElementById(id)?.scrollIntoView({behavior:"smooth"});
 }
-
 function showNotice(message){
   if(tg&&typeof tg.showAlert==="function")tg.showAlert(message);
   else alert(message);
 }
+
+/* BANNER IMAGE EXTENSION FALLBACK */
+document.querySelectorAll("[data-banner]").forEach(img=>{
+  const base="assets/banners/"+img.dataset.banner;
+  const extensions=["png","jpg","jpeg","webp"];
+  let extensionIndex=0;
+
+  img.addEventListener("error",()=>{
+    extensionIndex++;
+    if(extensionIndex<extensions.length){
+      img.src=base+"."+extensions[extensionIndex];
+    }else{
+      img.style.display="none";
+    }
+  });
+
+  img.src=base+".png";
+});
 
 /* GAME IMAGE FALLBACK */
 document.querySelectorAll(".game-image img").forEach(img=>{
@@ -573,14 +601,12 @@ function updateGamesArrows(){
   gamesLeft.hidden=gamesList.scrollLeft<=2;
   gamesRight.hidden=gamesList.scrollLeft>=maxScroll-2||maxScroll<=2;
 }
-
 function moveGames(direction){
   gamesList.scrollBy({
     left:direction*Math.max(200,gamesList.clientWidth*.75),
     behavior:"smooth"
   });
 }
-
 gamesList.addEventListener("scroll",updateGamesArrows);
 window.addEventListener("resize",updateGamesArrows);
 window.addEventListener("load",updateGamesArrows);
@@ -591,19 +617,15 @@ updateGamesArrows();
 
 /* SEARCH */
 const searchInput=document.getElementById("searchInput");
-
 searchInput.addEventListener("input",()=>{
   const query=searchInput.value.trim().toLowerCase();
-
   document.querySelectorAll(".game").forEach(game=>{
     const text=((game.dataset.search||"")+" "+game.innerText).toLowerCase();
     game.style.display=text.includes(query)?"":"none";
   });
-
   gamesList.scrollTo({left:0,behavior:"smooth"});
   setTimeout(updateGamesArrows,350);
 });
-
 function clearSearch(){
   searchInput.value="";
   document.querySelectorAll(".game").forEach(game=>game.style.display="");
@@ -611,20 +633,11 @@ function clearSearch(){
   setTimeout(updateGamesArrows,350);
 }
 
-function selectGame(query){
-  searchInput.value=query;
-  searchInput.dispatchEvent(new Event("input"));
-  scrollToSection("games");
-}
-
 /* PROMO CAROUSEL */
 const promoSlides=[...document.querySelectorAll(".promo-slide")];
 const promoDots=document.getElementById("promoDots");
-const promoCarousel=document.getElementById("promoCarousel");
-const promoPause=document.getElementById("promoPause");
 let promoIndex=0;
 let promoTimer=null;
-let promoPaused=false;
 
 promoSlides.forEach((slide,index)=>{
   const dot=document.createElement("button");
@@ -633,7 +646,6 @@ promoSlides.forEach((slide,index)=>{
   dot.addEventListener("click",()=>showPromo(index,true));
   promoDots.appendChild(dot);
 });
-
 const dotButtons=[...promoDots.querySelectorAll(".promo-dot")];
 
 function showPromo(index,userAction=false){
@@ -642,30 +654,16 @@ function showPromo(index,userAction=false){
   dotButtons.forEach((dot,i)=>dot.classList.toggle("active",i===promoIndex));
   if(userAction)startPromoTimer();
 }
-
 function nextPromo(userAction=false){showPromo(promoIndex+1,userAction);}
 function prevPromo(){showPromo(promoIndex-1,true);}
-
 function startPromoTimer(){
   clearInterval(promoTimer);
-  if(!promoPaused){
-    promoTimer=setInterval(()=>nextPromo(false),30000);
-  }
+  promoTimer=setInterval(()=>nextPromo(false),30000);
 }
-
 document.getElementById("promoNext").addEventListener("click",()=>nextPromo(true));
 document.getElementById("promoPrev").addEventListener("click",prevPromo);
 
-promoPause.addEventListener("click",()=>{
-  promoPaused=!promoPaused;
-  promoPause.textContent=promoPaused?"▶":"Ⅱ";
-  promoPause.setAttribute(
-    "aria-label",
-    promoPaused?"Возобновить автопереключение":"Приостановить автопереключение"
-  );
-  startPromoTimer();
-});
-
+const promoCarousel=document.getElementById("promoCarousel");
 promoCarousel.addEventListener("mouseenter",()=>clearInterval(promoTimer));
 promoCarousel.addEventListener("mouseleave",startPromoTimer);
 promoCarousel.addEventListener("focusin",()=>clearInterval(promoTimer));
@@ -685,12 +683,10 @@ function shuffleArray(array){
   }
   return result;
 }
-
 function shuffleListings(){
   listings=shuffleArray(listings);
   renderListings();
 }
-
 function renderListings(){
   productsList.innerHTML="";
   let visible=[...listings];
@@ -717,7 +713,6 @@ function renderListings(){
 
     const image=document.createElement("div");
     image.className="product-image";
-
     if(item.image){
       const img=document.createElement("img");
       img.src=item.image;
@@ -733,7 +728,6 @@ function renderListings(){
 
     const info=document.createElement("div");
     info.className="product-info";
-
     const category=document.createElement("div");
     category.className="product-category";
     category.textContent=item.category||"Товар";
@@ -744,17 +738,13 @@ function renderListings(){
 
     const bottom=document.createElement("div");
     bottom.className="product-bottom";
-
     const seller=document.createElement("div");
     seller.className="seller";
-
     const dot=document.createElement("span");
     dot.className="seller-dot";
-
     const sellerName=document.createElement("span");
     sellerName.className="seller-name";
     sellerName.textContent=item.seller||"Продавец";
-
     seller.append(dot,sellerName);
 
     const price=document.createElement("span");
