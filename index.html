@@ -83,22 +83,6 @@ svg { display: block; }
   font-weight: 900;
   letter-spacing: -1px;
 }
-.brand-mark {
-  width: 38px;
-  height: 38px;
-  flex-shrink: 0;
-  overflow: hidden;
-  border-radius: 10px;
-  background: white;
-  display: grid;
-  place-items: center;
-}
-.brand-mark img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  padding: 3px;
-}
 .brand-name { color: var(--text); }
 .brand-name span { color: var(--blue); }
 
@@ -510,6 +494,83 @@ html[data-theme="dark"] .theme-switch {
 .footer-links a { display: block; margin: 7px 0; }
 .mobile-nav { display: none; }
 
+/* AUTH */
+.auth-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  background: #07132680;
+  backdrop-filter: blur(5px);
+}
+.auth-overlay.open { display: flex; }
+.auth-modal {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  padding: 28px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: 0 20px 70px #0003;
+}
+.auth-close {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  width: 34px;
+  height: 34px;
+  border: 0;
+  border-radius: 9px;
+  background: var(--soft-blue);
+  color: var(--muted);
+  font-size: 24px;
+}
+.auth-modal h2 { margin: 0 36px 8px 0; font-size: 22px; }
+.auth-subtitle { margin: 0 0 22px; color: var(--muted); font-size: 13px; line-height: 1.5; }
+.auth-options { display: grid; gap: 10px; }
+.auth-option {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  background: var(--surface);
+  color: var(--text);
+  text-align: left;
+  font-weight: 750;
+}
+.auth-option.primary { background: var(--blue); border-color: var(--blue); color: white; }
+.auth-option:hover { border-color: var(--blue); }
+.auth-form { display: none; }
+.auth-form.active { display: block; }
+.auth-form label { display: block; margin: 12px 0 6px; font-size: 12px; font-weight: 700; }
+.auth-form input {
+  width: 100%;
+  height: 45px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--text);
+  outline: none;
+}
+.auth-form input:focus { border-color: var(--blue); }
+.auth-back {
+  border: 0;
+  background: none;
+  color: var(--blue);
+  padding: 0;
+  margin-bottom: 15px;
+  font-size: 13px;
+  font-weight: 700;
+}
+.auth-submit { width: 100%; margin-top: 18px; }
+.auth-note { margin-top: 12px; font-size: 11px; color: var(--muted); line-height: 1.5; }
+
 @media (max-width: 950px) {
   .wrap { padding-left: 18px; padding-right: 18px; }
   .header { gap: 14px; }
@@ -528,7 +589,6 @@ html[data-theme="dark"] .theme-switch {
     padding-bottom: 10px;
   }
   .brand { font-size: 21px; gap: 6px; }
-  .brand-mark { width: 30px; height: 30px; }
   .theme-switch { width: 48px; height: 28px; }
   .theme-switch-thumb { width: 22px; height: 22px; }
   .search {
@@ -611,6 +671,8 @@ html[data-theme="dark"] .theme-switch {
   }
   .mobile-nav svg { width: 20px; height: 20px; }
   .mobile-nav button.active { color: var(--blue); }
+
+  .auth-modal { padding: 24px 20px; }
 }
 @media (max-width: 360px) {
   .wrap { padding-left: 9px; padding-right: 9px; }
@@ -641,6 +703,10 @@ stroke-linecap="round" stroke-linejoin="round">
 <symbol id="i-user" viewBox="0 0 24 24">
   <circle cx="12" cy="8" r="4"/><path d="M5 21a7 7 0 0 1 14 0"/>
 </symbol>
+<symbol id="i-messages" viewBox="0 0 24 24">
+  <path d="M21 11.5a8.5 8.5 0 0 1-12.2 7.6L3 21l1.9-5.1A8.5 8.5 0 1 1 21 11.5Z"/>
+  <path d="M8 11h.01M12 11h.01M16 11h.01"/>
+</symbol>
 <symbol id="i-shield" viewBox="0 0 24 24">
   <path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11Z"/>
   <path d="m9 12 2 2 4-4"/>
@@ -666,9 +732,6 @@ stroke-linecap="round" stroke-linejoin="round">
 <header class="topbar">
   <div class="wrap header">
     <a class="brand" href="#top">
-      <span class="brand-mark">
-        <img src="assets/games/nexpay-logo.png" alt="NexPay">
-      </span>
       <span class="brand-name">Nex<span>Pay</span></span>
     </a>
 
@@ -691,10 +754,10 @@ stroke-linecap="round" stroke-linejoin="round">
         <svg><use href="#i-wallet"/></svg><span>Продать</span>
       </button>
       <button class="header-action" onclick="showNotice('Чаты подключим к API.')">
-        <svg><use href="#i-user"/></svg><span>Чаты</span>
+        <svg><use href="#i-messages"/></svg><span>Чаты</span>
       </button>
-      <button class="header-action" onclick="showNotice('Профиль будет подключён через Telegram.')">
-        <svg><use href="#i-user"/></svg><span>Профиль</span>
+      <button class="header-action" onclick="openAuthModal()">
+        <svg><use href="#i-user"/></svg><span>Войти</span>
       </button>
     </nav>
   </div>
@@ -796,19 +859,108 @@ stroke-linecap="round" stroke-linejoin="round">
   <button onclick="scrollToSection('games')"><svg><use href="#i-search"/></svg>Каталог</button>
   <button onclick="showNotice('Создание объявлений подключим к API.')"><svg><use href="#i-package"/></svg>Продать</button>
   <button onclick="showNotice('Избранное подключим к профилю.')"><svg><use href="#i-heart"/></svg>Избранное</button>
-  <button onclick="showNotice('Профиль будет подключён через Telegram.')"><svg><use href="#i-user"/></svg>Профиль</button>
+  <button onclick="openAuthModal()"><svg><use href="#i-user"/></svg>Войти</button>
 </nav>
+
+<!-- AUTH MODAL -->
+<div class="auth-overlay" id="authOverlay" role="dialog" aria-modal="true" aria-labelledby="authTitle" onclick="handleAuthOverlay(event)">
+  <section class="auth-modal">
+    <button class="auth-close" type="button" aria-label="Закрыть" onclick="closeAuthModal()">×</button>
+
+    <div id="authChoice">
+      <h2 id="authTitle">Войти в NexPay</h2>
+      <p class="auth-subtitle">Войдите в аккаунт или создайте новый, чтобы покупать и продавать цифровые товары.</p>
+      <div class="auth-options">
+        <button class="auth-option primary" type="button" onclick="showAuthForm('login')">Войти</button>
+        <button class="auth-option" type="button" onclick="showAuthForm('register')">Зарегистрироваться</button>
+      </div>
+    </div>
+
+    <form class="auth-form" id="loginForm" onsubmit="submitAuth(event, 'login')">
+      <button class="auth-back" type="button" onclick="showAuthChoice()">← Назад</button>
+      <h2>Вход в аккаунт</h2>
+      <p class="auth-subtitle">Введите данные своего аккаунта NexPay.</p>
+
+      <label for="loginEmail">Email</label>
+      <input id="loginEmail" type="email" placeholder="example@mail.com" autocomplete="email" required>
+
+      <label for="loginPassword">Пароль</label>
+      <input id="loginPassword" type="password" placeholder="Введите пароль" autocomplete="current-password" required>
+
+      <button class="btn btn-primary auth-submit" type="submit">Войти</button>
+      <p class="auth-note">Вход пока работает только как интерфейс. Подключение аккаунтов появится после настройки сервера.</p>
+    </form>
+
+    <form class="auth-form" id="registerForm" onsubmit="submitAuth(event, 'register')">
+      <button class="auth-back" type="button" onclick="showAuthChoice()">← Назад</button>
+      <h2>Создать аккаунт</h2>
+      <p class="auth-subtitle">Зарегистрируйтесь, чтобы пользоваться NexPay.</p>
+
+      <label for="registerName">Имя пользователя</label>
+      <input id="registerName" type="text" placeholder="Ваше имя" autocomplete="username" required>
+
+      <label for="registerEmail">Email</label>
+      <input id="registerEmail" type="email" placeholder="example@mail.com" autocomplete="email" required>
+
+      <label for="registerPassword">Пароль</label>
+      <input id="registerPassword" type="password" placeholder="Придумайте пароль" autocomplete="new-password" minlength="8" required>
+
+      <button class="btn btn-primary auth-submit" type="submit">Зарегистрироваться</button>
+      <p class="auth-note">Регистрация пока не создаёт реальный аккаунт — для этого нужно подключить backend/API.</p>
+    </form>
+  </section>
+</div>
 
 <script>
 const tg = window.Telegram?.WebApp;
-if (tg) { tg.ready(); tg.expand(); }
+if (tg) {
+  tg.ready();
+  tg.expand();
+}
 
 function scrollToSection(id) {
   document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
 }
+
 function showNotice(message) {
   if (tg && typeof tg.showAlert === "function") tg.showAlert(message);
   else alert(message);
+}
+
+/* AUTH MODAL */
+const authOverlay = document.getElementById("authOverlay");
+
+function openAuthModal() {
+  authOverlay.classList.add("open");
+  showAuthChoice();
+}
+
+function closeAuthModal() {
+  authOverlay.classList.remove("open");
+}
+
+function handleAuthOverlay(event) {
+  if (event.target === authOverlay) closeAuthModal();
+}
+
+function showAuthChoice() {
+  document.getElementById("authChoice").style.display = "block";
+  document.getElementById("loginForm").classList.remove("active");
+  document.getElementById("registerForm").classList.remove("active");
+}
+
+function showAuthForm(type) {
+  document.getElementById("authChoice").style.display = "none";
+  document.getElementById("loginForm").classList.toggle("active", type === "login");
+  document.getElementById("registerForm").classList.toggle("active", type === "register");
+}
+
+function submitAuth(event, type) {
+  event.preventDefault();
+  const message = type === "login"
+    ? "Вход будет подключён после настройки сервера."
+    : "Регистрация будет подключена после настройки сервера.";
+  showNotice(message);
 }
 
 /* THEME SWITCH */
@@ -872,12 +1024,14 @@ function updateGamesArrows() {
   gamesLeft.hidden = gamesList.scrollLeft <= 2;
   gamesRight.hidden = gamesList.scrollLeft >= maxScroll - 2 || maxScroll <= 2;
 }
+
 function moveGames(direction) {
   gamesList.scrollBy({
     left: direction * Math.max(200, gamesList.clientWidth * .75),
     behavior: "smooth"
   });
 }
+
 gamesList.addEventListener("scroll", updateGamesArrows);
 window.addEventListener("resize", updateGamesArrows);
 window.addEventListener("load", updateGamesArrows);
@@ -895,6 +1049,7 @@ searchInput.addEventListener("input", () => {
   gamesList.scrollTo({ left: 0, behavior: "smooth" });
   setTimeout(updateGamesArrows, 350);
 });
+
 function clearSearch() {
   searchInput.value = "";
   document.querySelectorAll(".game").forEach(game => game.style.display = "");
@@ -915,6 +1070,7 @@ promoSlides.forEach((slide, index) => {
   dot.addEventListener("click", () => showPromo(index, true));
   promoDots.appendChild(dot);
 });
+
 const dotButtons = [...promoDots.querySelectorAll(".promo-dot")];
 
 function showPromo(index, userAction = false) {
@@ -923,12 +1079,15 @@ function showPromo(index, userAction = false) {
   dotButtons.forEach((dot, i) => dot.classList.toggle("active", i === promoIndex));
   if (userAction) startPromoTimer();
 }
+
 function nextPromo(userAction = false) { showPromo(promoIndex + 1, userAction); }
 function prevPromo() { showPromo(promoIndex - 1, true); }
+
 function startPromoTimer() {
   clearInterval(promoTimer);
   promoTimer = setInterval(() => nextPromo(false), 30000);
 }
+
 document.getElementById("promoNext").addEventListener("click", () => nextPromo(true));
 document.getElementById("promoPrev").addEventListener("click", prevPromo);
 
@@ -952,10 +1111,12 @@ function shuffleArray(array) {
   }
   return result;
 }
+
 function shuffleListings() {
   listings = shuffleArray(listings);
   renderListings();
 }
+
 function renderListings() {
   productsList.innerHTML = "";
   let visible = [...listings];
