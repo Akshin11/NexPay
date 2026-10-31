@@ -731,7 +731,118 @@ html[data-theme="dark"] .theme-switch {
     gap: 16px;
   }
 }
+/* === NexPay visual fixes === */
+/* Compact floating header frame */
+.topbar {
+  background: transparent;
+  border: 0;
+  padding: 10px 14px 0;
+}
+.topbar .wrap {
+  max-width: 1500px;
+  padding-left: 0;
+  padding-right: 0;
+}
+.header {
+  min-height: 68px;
+  padding: 10px 16px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
 
+/* Gray, theme-aware header icons and labels */
+.header-action,
+.header-action svg,
+.mobile-nav button,
+.mobile-nav svg {
+  color: var(--muted);
+}
+.header-action svg {
+  stroke: currentColor;
+}
+.header-action:hover,
+.header-action:hover svg,
+.mobile-nav button:hover {
+  color: var(--text);
+}
+.header-action:hover {
+  background: var(--bg);
+}
+.header-action:focus-visible,
+.mobile-nav button:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+}
+
+/* Tighten the area below the listings */
+#offers {
+  margin-bottom: 0;
+}
+#offers .listing-tools {
+  margin-bottom: 10px;
+}
+#offers .products {
+  gap: 11px;
+}
+#offers .empty {
+  padding: 22px 16px;
+}
+.features {
+  margin-top: 20px;
+  gap: 12px;
+}
+.feature {
+  padding: 17px;
+}
+.feature-icon {
+  margin-bottom: 10px;
+}
+.footer {
+  margin-top: 22px;
+  padding: 20px 0 24px;
+}
+.footer-links {
+  gap: 32px;
+}
+
+@media (max-width: 620px) {
+  .topbar {
+    padding: 8px 8px 0;
+  }
+  .topbar .wrap {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .header {
+    min-height: auto;
+    padding: 9px 10px;
+    border-radius: 15px;
+    gap: 8px;
+  }
+  .header-action,
+  .header-action svg {
+    color: var(--muted);
+  }
+  .features {
+    margin-top: 16px;
+    gap: 8px;
+  }
+  .feature {
+    padding: 12px;
+  }
+  .feature-icon {
+    margin-bottom: 0;
+  }
+  .footer {
+    margin-top: 16px;
+    padding: 16px 0 76px;
+  }
+  .footer-links {
+    gap: 22px;
+  }
+}
 </style>
 </head>
 
